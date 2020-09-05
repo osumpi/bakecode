@@ -1,6 +1,6 @@
 name: bakecode
-description: A simple command-line application.
-# version: 1.0.0
+description: bakecode kernel.
+version: 0.0.1-alpha
 # homepage: https://www.example.com
 
 environment:
