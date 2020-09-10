@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.134.1/containers/docker-existing-dockerfile
 {
-	"name": "BakeCode Runtime",
+	"name": "BakeCode",
 
 	// Sets the run context to one level up instead of the .devcontainer folder.
 	"context": "..",
