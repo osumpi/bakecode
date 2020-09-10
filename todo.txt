@@ -1,0 +1,5 @@
+// TODO: [today 17:00] refactor actions to job
+// TODO: [today 22:00] refactor service.dart : use path instead of service path
+// TODO: [tommr 17:00] hardware abstraction
+// TODO: [next week  ] wrap mqtt with bclink (hwquery / resp)
+// TODO: 

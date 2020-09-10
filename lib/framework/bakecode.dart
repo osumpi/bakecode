@@ -1,16 +1,26 @@
 import 'package:bakecode/framework/actions.dart';
 import 'package:bakecode/framework/mqtt.dart';
 import 'package:bakecode/framework/quantities.dart';
-import 'package:bakecode/framework/service.dart';
+import 'package:bakecode/framework/context.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 
-export 'package:bakecode/framework/service.dart';
+export 'package:bakecode/framework/context.dart';
 export 'package:bakecode/framework/quantities.dart';
 export 'package:bakecode/framework/actions.dart';
 
+class BakeCode {
+  ServicePath get servicePath => ServicePath(['bakecode']);
+}
+
 /// [BakeCodeRuntime] singleton service.
-class BakeCodeRuntime {
+/// The root of the kernel.
+///
+/// Holds the following:
+/// * Runtime instance.
+/// * MQTT client (kernel) instance.
+/// * GetIt instance for global data accessing.
+class BakeCodeRuntime extends BakeCode {
   BakeCodeRuntime._();
 
   /// [BakeCodeRuntime] singleton service instance.
@@ -23,7 +33,10 @@ class BakeCodeRuntime {
   final getIt = GetIt.instance;
 
   /// [BakeCodeRuntime]'s [ServicePath].
-  ServicePath get servicePath => ServicePath(['bakecode-$hashCode']);
+  @override
+  ServicePath get servicePath => super.servicePath.child('runtime/$hashCode');
+
+  void run() {}
 }
 
 /// [BakeCodeService] abstract layer.
@@ -34,6 +47,17 @@ abstract class BakeCodeService {
   /// [ServicePath] of [this] [BakeCodeService].
   ServicePath get servicePath => runtime.servicePath;
 
+  /// The default constructor for [BakeCodeService] binds all the necessary
+  /// runtime services required by a [BakeCodeService].
+  ///
+  /// **Includes:**
+  ///
+  /// * `onMessage` an overridable Function(String) listens to subscriptions
+  /// for this service.
+  ///
+  /// * `publish(String message)` facilitates publishing of message to this
+  /// service's channel.
+  ///
   BakeCodeService() {
     /// Subscribes and implements callbacks for using mqtt service.
     runtime.mqtt.addSubscription(servicePath.path, onMessage: onMessage);
@@ -54,26 +78,14 @@ abstract class BakeCodeServiceCollection<T> extends BakeCodeService {
   final List<T> services = [];
 }
 
-/// [ToolsCollection] is a [BakeCodeService] that handles all the associated
-/// [Tool]s in this runtime. [ToolsCollection] is a singleton service.
-@sealed
-class ToolsCollection extends BakeCodeServiceCollection<Tool> {
-  ToolsCollection._();
+abstract class Hardware extends BakeCodeService {
+  bool isOnline = false;
+  bool isBusy = false;
 
-  /// [Tools] singleton service instance.
-  static final ToolsCollection instance = ToolsCollection._();
+  String get name;
 
-  factory ToolsCollection() => instance;
-
-  /// All tools in [this] runtime.
-  List<Tool> get tools => super.services;
-
-  @override
-  void onMessage(String message) {} // TODO: onMessage implementation pending.
-
-  /// [Tools]'s [ServicePath].
-  @override
-  ServicePath get servicePath => super.servicePath.child('tools');
+  Future<String> getName();
+  Future<String> getVersion();
 }
 
 /// [Tool] abstact layer.
@@ -97,32 +109,4 @@ abstract class Tool extends BakeCodeService {
   @override
   ServicePath get servicePath =>
       ToolsCollection().servicePath.child(name).child(sessionID);
-}
-
-abstract class Recipe {
-  String get name;
-  Servings get servings;
-
-  Duration get bestBefore;
-
-  Action make();
-}
-
-abstract class Beverage extends Recipe {}
-
-abstract class Food extends Recipe {}
-
-abstract class RecipeState<T extends Recipe> {
-  Duration makeDuration;
-  DateTime makeDateTime;
-  Servings makeServings;
-  DateTime makeExpiryDateTime;
-}
-
-void make(Recipe recipe) {
-  // recipe.make();
-}
-
-void run() {
-  // TODO: start bakecode service.
 }
