@@ -1,16 +1,28 @@
 // import 'package:bakecode/framework/bakecode.dart';
 
-// void main() => BakeCodeRuntime.instance.run();
+// main() => BakeCodeRuntime.instance.run();
 
-import 'package:bakecode/framework/context.dart';
+import 'dart:io';
 
-main() {
-  Context a = Context.root('root');
-  print(a);
+import 'package:yaml/yaml.dart';
 
-  Context a1 = Context.childFrom(parent: a, child: ContextLevel('c1'));
-  print(a);
-  print(a1);
-  print(a1.parent);
-  print(a1.depth);
+Map loadYamlFileSync(String path) {
+  File file = new File(path);
+  if (file?.existsSync() == true) {
+    return loadYaml(file.readAsStringSync());
+  }
+  return null;
+}
+
+Future<Map> loadYamlFile(String path) async {
+  File file = new File(path);
+  if ((await file?.exists()) == true) {
+    String content = await file.readAsString();
+    return loadYaml(content);
+  }
+  return null;
+}
+
+main(List<String> args) {
+  print(loadYamlFileSync("pubspec.yaml"));
 }

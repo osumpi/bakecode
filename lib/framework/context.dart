@@ -84,8 +84,8 @@ class Context extends Equatable {
   ContextLevel get currentLevel => levels.last;
 
   /// Returns a new [Context] with a new child [level] appended to [levels].
-  Context child(ContextLevel child) =>
-      Context.childFrom(parent: this, child: child);
+  Context child(String child) =>
+      Context.childFrom(parent: this, child: ContextLevel(child));
 
   /// Parent [Context] of this context.
   /// Returns `null` if this context is root.

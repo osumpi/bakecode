@@ -3,18 +3,17 @@ import 'package:mqtt_client/mqtt_client.dart';
 
 @immutable
 class MqttRuntime {
-  /// Server host address of the MQTT Broker Serivce.
-  static final String server = 'localhost';
+  MqttRuntime._() {
+    
+  }
 
-  /// Port at which the MQTT Broker service is running.
-  static final int port = 1883;
+  static final instance = MqttRuntime._();
 
-  /// MQTT Broker security, [username].
-  static final String username = '';
+  factory MqttRuntime() => instance;
+}
 
-  /// MQTT Broker security, [password].
-  static final String password = '';
-
+@immutable
+class MqttRuntime {
   /// MQTT Quality of Service level of all transactions.
   final MqttQos _qos = MqttQos.atMostOnce;
 
