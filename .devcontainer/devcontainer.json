@@ -15,7 +15,16 @@
 	},
 
 	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": []
+	"extensions": [
+		"dart-code.dart-code",
+		"usernamehw.errorlens",
+		"mhutchie.git-graph",
+		"donjayamanne.githistory",
+		"knisterpeter.vscode-github",
+		"eamodio.gitlens",
+		"wayou.vscode-todo-highlight",
+		"redhat.vscode-yaml"
+	]
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
