@@ -1,14 +1,13 @@
 // import 'package:bakecode/framework/actions.dart';
-// import 'package:bakecode/framework/mqtt.dart';
 // import 'package:bakecode/framework/quantities.dart';
 import 'package:bakecode/framework/context.dart';
+import 'package:bakecode/framework/mqtt.dart';
 import 'package:get_it/get_it.dart';
 // import 'package:meta/meta.dart';
 
 export 'package:bakecode/framework/context.dart';
 // export 'package:bakecode/framework/quantities.dart';
 // export 'package:bakecode/framework/actions.dart';
-
 
 abstract class BakeCode {
   Context get context => Context.root('bakecode');
@@ -28,7 +27,7 @@ class BakeCodeRuntime extends BakeCode {
   static BakeCodeRuntime instance = BakeCodeRuntime._();
 
   /// [MqttRuntime] service instance.
-  // final mqtt = MqttRuntime.instance;
+  final mqtt = MqttRuntime.instance;
 
   /// [GetIt] service instance.
   final getIt = GetIt.instance;

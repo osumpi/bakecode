@@ -1,6 +1,6 @@
 FROM google/dart
 
-ENV DART_VERSION=2.9.2
+ENV DART_VERSION=2.9.3
 
 WORKDIR /app
 

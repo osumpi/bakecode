@@ -23,7 +23,8 @@
 		"knisterpeter.vscode-github",
 		"eamodio.gitlens",
 		"wayou.vscode-todo-highlight",
-		"redhat.vscode-yaml"
+		"redhat.vscode-yaml",
+		"CoenraadS.bracket-pair-colorizer-2"
 	]
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
