@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
 /// [ContextLevel] class just wraps a [String] [name].
@@ -14,10 +13,8 @@ import 'package:meta/meta.dart';
 /// The [ContextPath]: `bakecode/env/hw` has three [ContextLevel]s.
 /// They are: `['bakecode', 'env', 'hw']`.
 @immutable
-@JsonSerializable(nullable: false, createFactory: true, createToJson: true)
 class ContextLevel extends Equatable {
   /// Contains the name of this level.
-  @JsonKey(nullable: false, required: true)
   final String name;
 
   /// Creates a [ContextLevel].
