@@ -1,8 +1,13 @@
 // import 'package:bakecode/framework/actions.dart';
 // import 'package:bakecode/framework/quantities.dart';
+import 'dart:io';
+
 import 'package:bakecode/framework/context.dart';
+import 'package:bakecode/framework/logger.dart';
 import 'package:bakecode/framework/mqtt.dart';
 import 'package:get_it/get_it.dart';
+import 'package:meta/meta.dart';
+import 'package:yaml/yaml.dart';
 // import 'package:meta/meta.dart';
 
 export 'package:bakecode/framework/context.dart';
@@ -10,6 +15,7 @@ export 'package:bakecode/framework/context.dart';
 // export 'package:bakecode/framework/actions.dart';
 
 abstract class BakeCode {
+  /// Provides a context for every sub-services of [BakeCode].
   Context get context => Context.root('bakecode');
 }
 
@@ -23,22 +29,52 @@ abstract class BakeCode {
 class BakeCodeRuntime extends BakeCode {
   BakeCodeRuntime._();
 
-  /// [BakeCodeRuntime] singleton service instance.
+  /// Instance of [BakeCodeRuntime].
   static BakeCodeRuntime instance = BakeCodeRuntime._();
 
-  /// [MqttRuntime] service instance.
+  /// Instance of [MqttRuntime].
   final mqtt = MqttRuntime.instance;
 
-  /// [GetIt] service instance.
+  /// Instance of [GetIt].
   final getIt = GetIt.instance;
+
+  String runtimeIdentifier
 
   @override
   Context get context => super.context.child('runtime').child('$hashCode');
 
-  void run() {
-    print('BakeCodeRuntime kernel- started at: $context');
-    while (true);
+  Map config;
+
+  Future<Map> _getConfig({@required String fromPath}) async {
+    File configFile = File(fromPath);
+
+    if ((await configFile?.exists() == true)) {
+      log.d("Getting config from '$fromPath'");
+      try {
+        String content = await configFile.readAsString();
+        return loadYaml(content);
+      } catch (exception) {
+        log.e(exception.toString());
+      }
+    } else {
+      log.w('$fromPath does not exist!');
+    }
+
+    return null;
   }
+
+  void _init() async {
+    log.i('Starting BakeCode Runtime ($hashCode)...');
+
+    config = await _getConfig(fromPath: 'bakecode.yaml');
+
+    mqtt.init(
+      runtimeIdentifier: '',
+      config: config['mqtt'],
+    );
+  }
+
+  void run() => _init();
 }
 
 // /// [BakeCodeService] abstract layer.

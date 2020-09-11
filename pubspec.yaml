@@ -8,10 +8,12 @@ environment:
 
 dependencies:
   meta: ^1.2.2
+  logger: ^0.9.2
   yaml: ^2.2.1
   get_it: ^4.0.4
   equatable: ^1.2.2
   intl: ^0.16.1
+  event_bus: ^1.1.1
   mqtt_client: ^7.3.0
   json_annotation: ^3.0.1
   json_serializable: ^3.4.1
