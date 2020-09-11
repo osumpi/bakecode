@@ -38,65 +38,109 @@ class ContextLevel extends Equatable {
   String toString() => name;
 }
 
-/// [Context] identifies evrery bakecode contexts.
-/// See BakeCode Environment MQTT Topic Documentation.
+/// A handle to the location of a service in the bakecode service tree.
+///
+/// This class presents a set of methods that can be used inside a bakecode
+/// service.
 @immutable
 class Context extends Equatable {
-  /// Contains all the [ContextLevel]s in sequential order.
-  final List<ContextLevel> levels;
-
-  /// [path] gives the actual path to this service.
-  String get path => levels.join('/');
-
-  const Context._(List<ContextLevel> this.levels) : assert(levels != null);
-
-  /// Creates a [Context] from the specified [levels].
+  /// The parent of this context.
   ///
-  /// * `levels.first` should contain the root level.
-  /// * `levels.last` should contain the farthest level from root.
-  factory Context.fromLevels(List<ContextLevel> levels) => Context._(levels);
+  /// Null if root.
+  final Context parent;
 
-  /// Creates a [Context] for the specified [child] [ContextLevel] from
-  /// [parentContext].
-  factory Context.childFrom({
-    @required Context parent,
-    @required ContextLevel child,
-  }) =>
-      Context._(parent.levels.toList()..add(child));
+  /// [ContextLevel] of this context.
+  ///
+  /// For example:
+  /// ```dart
+  /// ('bakecode/env/hw' as Context).me == ContextLevel('hw');
+  /// ```
+  final ContextLevel me;
 
-  /// Creates a root [Context].
-  factory Context.root(String root) => Context._([ContextLevel(root)]);
+  // /// Contains all the [ContextLevel]s in sequential order.
+  // final List<ContextLevel> levels;
 
-  /// [true] if this contains single level.
-  bool get isRoot => levels.length == 1;
+  /// Returns the absolute path of this context.
+  ///
+  /// Example:
+  /// ```dart
+  /// BakeCodeRuntime().context.path == 'bakecode/runtime/141278932';
+  /// ```
+  String get path => isRoot ? me : '$parent/me';
 
-  /// Depth of this [Context] from root.
+  /// Creates a context with a provided parent.
   ///
   /// **Example:**
-  /// * Depth of `hw` in `bakecode/env/hw` is `2`.
-  /// * Depth of `bakecode` in `bakecode/env/hw` is `0`.
-  int get depth => levels.length - 1;
+  /// ```dart
+  /// var context = Context(ContextLevel('env'), parent: root);
+  /// ```
+  ///
+  /// If you want to create a root context instead, use:
+  /// ```dart
+  /// var root = Context.root('bakecode');
+  /// ```
+  const Context(this.me, {@required this.parent}) : assert(me != null);
 
-  /// [ContextLevel] of the root level.
-  ContextLevel get rootLevel => levels.first;
+  /// Creates a root context.
+  ///
+  /// i.e., The created context's parent shall be `null`.
+  ///
+  /// **Example:**
+  /// ```dart
+  /// var root = Context.root('bakecode');
+  /// ```
+  ///
+  /// If you want to create a context with a parent instead, use the default
+  /// constructor:
+  /// ```dart
+  /// var context = Context(ContextLevel('env'), parent: root);
+  /// ```
+  factory Context.root(String root) =>
+      Context(ContextLevel(root), parent: null);
 
-  /// [ContextLevel] of the last level (farthest from root).
-  ContextLevel get currentLevel => levels.last;
+  /// Returns true if no parent exists.
+  /// ```dart
+  /// ('bakecode' as Context).isRoot == true;
+  /// ('bakecode/env/hw' as Context).isRoot == false;
+  /// ```
+  bool get isRoot => parent == null;
 
-  /// Returns a new [Context] with a new child [level] appended to [levels].
-  Context child(String child) =>
-      Context.childFrom(parent: this, child: ContextLevel(child));
+  /// Depth from root.
+  ///
+  /// **Example:**
+  /// ```dart
+  /// ('bakecode/env/hw' as Context).depth == 2;
+  /// ('bakecode' as Context).depth == 0;
+  /// ```
+  int get depth => isRoot ? 0 : (parent.depth + 1);
 
-  /// Parent [Context] of this context.
-  /// Returns `null` if this context is root.
-  Context get parent =>
-      isRoot ? null : Context.fromLevels(levels.sublist(0, depth));
+  /// Root context.
+  ///
+  /// i.e.,
+  /// ```dart
+  /// ('bakecode' as Context) == ('bakecode/env/hw' as Context).root;
+  /// ```
+  Context get root => isRoot ? this : parent.root;
 
-  /// Equatable implementation.
+  /// Creates a child [Context] with this context as the parent of the child.
+  ///
+  /// i.e.,
+  /// ```dart
+  /// ('bakecode' as Context).child('env') == ('bakecode/env' as Context);
+  /// ```
+  Context child(String child) => Context(ContextLevel(child), parent: this);
+
   @override
-  List<Object> get props => levels;
+  List<Object> get props => [path];
 
-  /// Absolute path to this context as [String].
+  /// Absolute path of the context.
+  ///
+  /// **Example:**
+  /// ```dart
+  /// print(('bakecode/env/hw' as Context));
+  /// ```
+  /// *Output:*
+  /// `bakecode/env/hw`
   @override
   String toString() => path;
 }
