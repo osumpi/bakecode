@@ -1,15 +1,7 @@
-// import 'package:bakecode/framework/bakecode.dart';
+import 'package:bakecode/framework/bakecode.dart';
 
-// main() => BakeCodeRuntime.instance.run();
-
-class A {
-  String a = '';
-
-  @override
-  String toString() => a;
-}
-
-main() {
-  List a = 'helloooo'.split('');
-  print(a);
+main() async {
+  await BakeCodeRuntime.instance.run();
+  BakeCodeRuntime.instance.publish('a');
+  BakeCode.instance.publish('sd');
 }

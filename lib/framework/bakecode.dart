@@ -1,22 +1,32 @@
-// import 'package:bakecode/framework/actions.dart';
-// import 'package:bakecode/framework/quantities.dart';
 import 'dart:io';
 
 import 'package:bakecode/framework/context.dart';
 import 'package:bakecode/framework/logger.dart';
 import 'package:bakecode/framework/mqtt.dart';
-import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 import 'package:yaml/yaml.dart';
-// import 'package:meta/meta.dart';
 
 export 'package:bakecode/framework/context.dart';
 // export 'package:bakecode/framework/quantities.dart';
 // export 'package:bakecode/framework/actions.dart';
 
-abstract class BakeCode {
+class BakeCode {
+  /// Factory redirecting to [BakeCode.instance].
+  factory BakeCode() => instance;
+
+  /// Instance of Singleton [BakeCode].
+  static final instance = BakeCode._();
+
+  /// Private generative constructor.
+  const BakeCode._();
+
   /// Provides a context for every sub-services of [BakeCode].
   Context get context => Context.root('bakecode');
+
+  void publish(String message) =>
+      MqttRuntime.instance.publish(topic: context.path, message: message);
+
+  //Stream get stream;
 }
 
 /// [BakeCodeRuntime] singleton service.
@@ -26,19 +36,16 @@ abstract class BakeCode {
 /// * Runtime instance.
 /// * MQTT client (kernel) instance.
 /// * GetIt instance for global data accessing.
+@sealed
 class BakeCodeRuntime extends BakeCode {
-  BakeCodeRuntime._();
+  /// Generative constructor.
+  BakeCodeRuntime._() : super._();
 
   /// Instance of [BakeCodeRuntime].
-  static BakeCodeRuntime instance = BakeCodeRuntime._();
+  static final BakeCodeRuntime instance = BakeCodeRuntime._();
 
-  /// Instance of [MqttRuntime].
-  final mqtt = MqttRuntime.instance;
-
-  /// Instance of [GetIt].
-  final getIt = GetIt.instance;
-
-  String runtimeIdentifier
+  /// Factory constructor redirecting to [BakeCodeRuntime.instance]
+  factory BakeCodeRuntime() => instance;
 
   @override
   Context get context => super.context.child('runtime').child('$hashCode');
@@ -68,9 +75,12 @@ class BakeCodeRuntime extends BakeCode {
 
     config = await _getConfig(fromPath: 'bakecode.yaml');
 
-    mqtt.init(
-      runtimeIdentifier: '',
-      config: config['mqtt'],
+    MqttRuntime.instance.init(
+      runtimeInstanceID: hashCode.toString(),
+      server: config['mqtt']['server'],
+      port: config['mqtt']['port'],
+      username: config['mqtt']['username'],
+      password: config['mqtt']['password'],
     );
   }
 
