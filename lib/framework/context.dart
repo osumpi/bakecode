@@ -90,7 +90,7 @@ class Context extends Equatable {
   /// ('bakecode/env/hw' as Context).depth == 2;
   /// ('bakecode' as Context).depth == 0;
   /// ```
-  int get depth => (parent?.depth ?? -1) + 1;
+  int get depth => isRoot ? 0 : (parent.depth + 1);
 
   /// Root context.
   ///
