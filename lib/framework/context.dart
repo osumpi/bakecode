@@ -16,9 +16,9 @@ class Context extends Equatable {
   ///
   /// For example:
   /// ```dart
-  /// ('bakecode/env/hw' as Context).me 'hw';
+  /// ('bakecode/env/hw' as Context).name =='hw';
   /// ```
-  final String me;
+  final String name;
 
   /// Creates a context with a provided parent.
   ///
@@ -42,17 +42,16 @@ class Context extends Equatable {
   /// ```dart
   /// var root = Context.root('bakecode');
   /// ```
-  Context(String name, {@required this.parent})
+  Context(this.name, {@required this.parent})
       : assert(name.contains('/') == false),
         assert(name.contains(' ') == false),
-        assert(name != null),
-        me = name;
+        assert(name != null);
 
   /// Creates a root context.
   ///
   /// i.e., The created context's parent shall be `null`.
   ///
-  /// `name` must follow MQTT single-level topic guidelines.
+  /// `root` must follow MQTT single-level topic guidelines.
   /// * Should be short and concise.
   /// * Use only ASCII Characters, and avoid non-printable characters.
   /// * Should not contain spaces.
@@ -107,7 +106,7 @@ class Context extends Equatable {
   /// ```dart
   /// BakeCodeRuntime().context.path == 'bakecode/runtime/141278932';
   /// ```
-  String get path => isRoot ? me : '$parent/me';
+  String get path => isRoot ? name : '$parent/$name';
 
   /// Creates a child [Context] with this context as the parent of the child.
   ///
