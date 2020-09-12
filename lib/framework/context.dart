@@ -16,7 +16,7 @@ class Context extends Equatable {
   ///
   /// For example:
   /// ```dart
-  /// ('bakecode/env/hw' as Context).name =='hw';
+  /// ('bakecode/eco/hw' as Context).name =='hw';
   /// ```
   final String name;
 
@@ -79,7 +79,7 @@ class Context extends Equatable {
   /// Returns true if no parent exists.
   /// ```dart
   /// ('bakecode' as Context).isRoot == true;
-  /// ('bakecode/env/hw' as Context).isRoot == false;
+  /// ('bakecode/eco/hw' as Context).isRoot == false;
   /// ```
   bool get isRoot => parent == null;
 
@@ -87,7 +87,7 @@ class Context extends Equatable {
   ///
   /// **Example:**
   /// ```dart
-  /// ('bakecode/env/hw' as Context).depth == 2;
+  /// ('bakecode/eco/hw' as Context).depth == 2;
   /// ('bakecode' as Context).depth == 0;
   /// ```
   int get depth => isRoot ? 0 : (parent.depth + 1);
@@ -96,7 +96,7 @@ class Context extends Equatable {
   ///
   /// i.e.,
   /// ```dart
-  /// ('bakecode' as Context) == ('bakecode/env/hw' as Context).root;
+  /// ('bakecode' as Context) == ('bakecode/eco/hw' as Context).root;
   /// ```
   Context get root => parent?.root ?? this;
 
@@ -112,7 +112,7 @@ class Context extends Equatable {
   ///
   /// i.e.,
   /// ```dart
-  /// ('bakecode' as Context).child('env') == ('bakecode/env' as Context);
+  /// ('bakecode' as Context).child('eco') == ('bakecode/eco' as Context);
   /// ```
   Context child(String child) => Context(child, parent: this);
 
@@ -123,10 +123,10 @@ class Context extends Equatable {
   ///
   /// **Example:**
   /// ```dart
-  /// print(('bakecode/env/hw' as Context));
+  /// print(('bakecode/eco/hw' as Context));
   /// ```
   /// *Output:*
-  /// `bakecode/env/hw`
+  /// `bakecode/eco/hw`
   @override
   String toString() => path;
 }
