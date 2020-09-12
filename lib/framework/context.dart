@@ -90,7 +90,7 @@ class Context extends Equatable {
   /// ('bakecode/env/hw' as Context).depth == 2;
   /// ('bakecode' as Context).depth == 0;
   /// ```
-  int get depth => isRoot ? 0 : (parent.depth + 1);
+  int get depth => (parent?.depth ?? -1) + 1;
 
   /// Root context.
   ///
@@ -98,7 +98,7 @@ class Context extends Equatable {
   /// ```dart
   /// ('bakecode' as Context) == ('bakecode/env/hw' as Context).root;
   /// ```
-  Context get root => isRoot ? this : parent.root;
+  Context get root => parent?.root ?? this;
 
   /// Returns the absolute path of this context.
   ///
