@@ -5,6 +5,10 @@ import 'package:bakecode/framework/mqtt.dart';
 import 'package:meta/meta.dart';
 
 abstract class BakeCodeService {
+  /// Default constructor for [BakeCodeService].
+  ///
+  /// Registers onMessage stream controller's sink for listening to messages
+  /// related to [context].
   BakeCodeService() {
     Mqtt.addListener(topic: context.path, sink: _onMessageSink);
   }
@@ -21,9 +25,12 @@ abstract class BakeCodeService {
   void publish(String message, {Context to}) =>
       Mqtt.publish(message, to: (to ?? context).path);
 
+  /// Sink of [_onMessageStreamController].
   StreamSink<String> get _onMessageSink => _onMessageStreamController.sink;
 
+  /// Stream for receiving messages for my context.
   Stream<String> get onMessage => _onMessageStreamController.stream;
 
+  /// Stream controller for on message events from [Mqtt].
   final _onMessageStreamController = StreamController<String>();
 }
