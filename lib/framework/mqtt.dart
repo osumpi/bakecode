@@ -19,10 +19,7 @@ class Mqtt {
     @required String topic,
     @required StreamSink<String> sink,
   }) {
-    if (!_subscriberSinks.containsKey(topic)) {
-      _subscriberSinks[topic] = List();
-    }
-
+    if (!_subscriberSinks.containsKey(topic)) _subscriberSinks[topic] = List();
     _subscriberSinks[topic].add(sink);
   }
 
@@ -32,7 +29,7 @@ class Mqtt {
   static final MqttServerClient _client = MqttServerClient('localhost', 'BCRT');
 
   /// The default QOS level to be used is [MqttQos.atLeastOnce].
-  static const MqttQos _qos = MqttQos.atLeastOnce;
+  static const MqttQos _qos = MqttQos.atMostOnce;
 
   /// Contains all [BakeCodeService] subscriber's sink for each topic.
   ///
@@ -50,7 +47,7 @@ class Mqtt {
     final String message = MqttPublishPayload.bytesToStringAsString(
         (packet[0].payload as MqttPublishMessage).payload.message);
 
-    _subscriberSinks[topic]?.map((sink) => sink.add(message));
+    _subscriberSinks[topic].forEach((sink) => sink.add(message));
   }
 
   /// Connects the [_client] to the broker.
@@ -66,10 +63,12 @@ class Mqtt {
     }
   }
 
+  static void _subscribe(String topic) => _client.subscribe(topic, _qos);
+
   /// Subscribes the topics needed by the listeners, and binds the update
   /// listener everytime the [_client] connects to the broker.
-  static void _clientConnected() {
-    _subscriberSinks.keys.map((e) => _client.subscribe(e, _qos));
+  static void _onClientConnected() {
+    _subscriberSinks.keys.forEach(_subscribe);
     _client.updates.listen(_subscriptionReceived);
     _updateConnectionState();
   }
@@ -93,10 +92,10 @@ class Mqtt {
           ..logging(on: false)
           ..keepAlivePeriod = 20
           ..onAutoReconnect = _updateConnectionState
-          ..onConnected = _clientConnected
+          ..onConnected = _onClientConnected
           ..onDisconnected = _updateConnectionState
-          ..onBadCertificate = (s) => true // TODO: impl. bad certificate
-        // ..onSubscribed =
+          ..onBadCertificate = ((s) => true)
+          ..onSubscribed = print
         // ..onUnsubscribed = _onUnsubscribed
         // ..onSubscribeFail = _onSubscribeFail
         // ..pongCallback = _pong
@@ -120,6 +119,8 @@ class Mqtt {
     ///
 
     // published.listen
+
+    connectionState.listen(print);
   }
 
   /// Publish a message.

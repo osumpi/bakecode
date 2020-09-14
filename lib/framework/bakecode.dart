@@ -8,7 +8,9 @@ import 'package:meta/meta.dart';
 import 'package:yaml/yaml.dart';
 
 class BakeCode extends BakeCodeService {
-  BakeCode._();
+  BakeCode._() {
+    onMessage.listen(print);
+  }
 
   static final instance = BakeCode._();
 
@@ -28,7 +30,9 @@ class BakeCode extends BakeCodeService {
 @sealed
 class BakeCodeRuntime extends BakeCodeService {
   /// Generative constructor.
-  BakeCodeRuntime._();
+  BakeCodeRuntime._() {
+    onMessage.listen(print);
+  }
 
   /// Instance of [BakeCodeRuntime].
   static final BakeCodeRuntime instance = BakeCodeRuntime._();
