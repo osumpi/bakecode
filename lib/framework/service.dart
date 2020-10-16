@@ -11,6 +11,7 @@ abstract class BakeCodeService {
   /// related to [context].
   BakeCodeService() {
     Mqtt.addListener(topic: context.path, sink: _onMessageSink);
+    _onMessageStreamController.stream.listen(onMessage);
   }
 
   /// Provides a handle for BakeCode services.
@@ -28,8 +29,10 @@ abstract class BakeCodeService {
   /// Sink of [_onMessageStreamController].
   StreamSink<String> get _onMessageSink => _onMessageStreamController.sink;
 
-  /// Stream for receiving messages for my context.
-  Stream<String> get onMessage => _onMessageStreamController.stream;
+  /// onMessage Callback.
+  ///
+  /// Callback triggered when a new message arrives for this service.
+  void Function(String) onMessage = (_) {};
 
   /// Stream controller for on message events from [Mqtt].
   final _onMessageStreamController = StreamController<String>();

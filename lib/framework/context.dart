@@ -45,7 +45,9 @@ class Context extends Equatable {
   Context(this.name, {@required this.parent})
       : assert(name.contains('/') == false),
         assert(name.contains(' ') == false),
-        assert(name != null);
+        assert(name != null) {
+    all.add(this);
+  }
 
   /// Creates a root context.
   ///
@@ -79,7 +81,7 @@ class Context extends Equatable {
   /// Returns true if no parent exists.
   /// ```dart
   /// ('bakecode' as Context).isRoot == true;
-  /// ('bakecode/eco/hw' as Context).isRoot == false;
+  /// ('bakecode/eco/hw' as Context).isR`oot == false;
   /// ```
   bool get isRoot => parent == null;
 
@@ -129,4 +131,7 @@ class Context extends Equatable {
   /// `bakecode/eco/hw`
   @override
   String toString() => path;
+
+  /// List of all instantiated contexts.
+  static const List<Context> all = [];
 }

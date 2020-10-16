@@ -79,3 +79,5 @@ class BakeCodeRuntime extends BakeCodeService {
 
   Future run() async => await _init();
 }
+
+class BakeCodeEcosystem
