@@ -19,6 +19,11 @@ abstract class BakeCodeService {
   /// Context makes every [BakeCodeService]s to be identifiable.
   Context get context;
 
+  /// onMessage Callback.
+  ///
+  /// Callback triggered when a new message arrives for this service.
+  void Function(String) onMessage;
+
   /// Publishes a [message] on [topic].
   ///
   /// By default [topic] is [this.context].
@@ -28,11 +33,6 @@ abstract class BakeCodeService {
 
   /// Sink of [_onMessageStreamController].
   StreamSink<String> get _onMessageSink => _onMessageStreamController.sink;
-
-  /// onMessage Callback.
-  ///
-  /// Callback triggered when a new message arrives for this service.
-  void Function(String) onMessage = (_) {};
 
   /// Stream controller for on message events from [Mqtt].
   final _onMessageStreamController = StreamController<String>();
