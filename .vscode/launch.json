@@ -7,7 +7,11 @@
         {
             "name": "bakecode",
             "request": "launch",
-            "type": "dart"
+            "program": "bin/bakecode.dart",
+            "type": "dart",
+            "args": [
+                "run",
+            ],
         }
     ]
 }
