@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bakecode/bakecode.dart';
+import 'package:bakecode/src/comms/mqtt/mqtt.dart';
 import 'package:meta/meta.dart';
 
 export 'broadcast_service.dart';

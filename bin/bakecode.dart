@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:bakecode/bakecode.dart';
+import 'package:bakecode/src/comms/mqtt/mqtt.dart';
 import 'package:yaml/yaml.dart';
 
 class RunCommand extends Command {
@@ -38,22 +39,16 @@ class RunCommand extends Command {
         log.e('$exception');
       }
     } else {
-      log.w("No config file exists at '${argResults['config-file']}'");
+      log.e("No config file exists at '${argResults['config-file']}'");
     }
 
     if (config == null) return;
 
     if (argResults.wasParsed('config-file')) {
-      log.i("Using custom configuration: '${argResults['config-file']}'");
+      log.v("Using custom configuration: '${argResults['config-file']}'");
     }
 
-    await Mqtt.init(
-      runtimeInstanceID: hashCode.toString(),
-      server: config['mqtt']['server'],
-      port: config['mqtt']['port'],
-      username: config['mqtt']['username'],
-      password: config['mqtt']['password'],
-    );
+    await Mqtt().initialize(using: MqttConnection.fromMap(config['mqtt']));
 
     return BakeCode.instance.run();
   }
