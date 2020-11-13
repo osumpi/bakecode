@@ -51,6 +51,20 @@ class MqttConnection {
     this.authentication_password = '',
   });
 
+  factory MqttConnection.fromMap(dynamic data) {
+    try {
+      return MqttConnection.from(
+        broker: data['broker'],
+        port: data['port'],
+        authentication_username: data['username'],
+        authentication_password: data['password'],
+      );
+    } catch (e) {
+      throw FormatException(
+          "Error reading MQTT configuration from Map<String, dynamic>", data);
+    }
+  }
+
   /// Returns true if authentication credentials are specified.
   bool get hasAuthentication =>
       authentication_username != '' || authentication_password != '';
