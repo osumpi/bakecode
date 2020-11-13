@@ -7,15 +7,15 @@ import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
 @sealed
-class _Mqtt {
+class Mqtt {
   /// Private generic empty constructor for singleton implementation.
-  _Mqtt._();
+  Mqtt._();
 
   /// The singleton instance.
-  static final instance = _Mqtt._();
+  static final instance = Mqtt._();
 
   /// Redirecting factory constructor to the singleton instance.
-  factory _Mqtt() => instance;
+  factory Mqtt() => instance;
 
   /// Instance of [MqttServerClient].
   final MqttServerClient client = MqttServerClient('0.0.0.0', 'bakecode');
@@ -25,7 +25,9 @@ class _Mqtt {
 
   /// Initialize the MQTT layer by specifying [using] with the [MqttConnection]
   /// specifications.
-  Future<void> initialize({@required MqttConnection using}) async {
+  Future<MqttClientConnectionStatus> initialize({
+    @required MqttConnection using,
+  }) async {
     assert(using != null);
 
     log.v("Initializing MQTT layer using: $using");
@@ -60,7 +62,7 @@ class _Mqtt {
             using.authentication_password,
           );
 
-    await client.connect();
+    return await connect();
   }
 
   /// Connects the [client] to the broker.
