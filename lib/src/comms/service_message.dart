@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:bakecode/bakecode.dart';
-import 'package:bakecode/src/comms/broadcast_service.dart';
+import 'package:bakecode/src/comms/bsi.dart';
 import 'package:meta/meta.dart';
 
 /// This class represents a ServiceMessage packet interpretable by BakeCode
