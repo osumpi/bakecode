@@ -92,11 +92,20 @@ class ServiceMessage {
   factory ServiceMessage.fromJSONString(String packet) {
     var p = jsonDecode(packet);
 
-    return ServiceMessage(
-      source: ServiceReference.fromString(p['source']),
-      destinations: p['destination'].map((d) => ServiceReference.fromString(d)),
-      message: p['message'].toString(),
-    );
+    try {
+      return ServiceMessage(
+        source: ServiceReference.fromString(p['source']),
+        destinations:
+            p['destination'].map((d) => ServiceReference.fromString(d)),
+        message: p['message'].toString(),
+      );
+    } catch (e) {
+      log.e("""
+      $e
+
+      Received packet as raw: $packet
+      """);
+    }
   }
 
   /// The string representation of the JSON structured [ServiceMessage] packet.

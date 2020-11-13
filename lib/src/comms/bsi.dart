@@ -23,15 +23,14 @@ class BSI {
   /// Redirecting factory constructor to the singleton instance.
   factory BSI() => instance;
 
-  final hookedServices = <ServiceReference, StreamSink<ServiceMessage>>{};
+  final hookedServices = <String, StreamSink<ServiceMessage>>{};
 
   void hook(Service service, {@required StreamSink<ServiceMessage> sink}) =>
-      hookedServices.putIfAbsent(service.reference, () => sink);
+      hookedServices.putIfAbsent('${service.reference}', () => sink);
 
   void unhook(Service service) =>
       hookedServices.remove(service.reference)?.close();
 
   void onReceiveCallback(String topic, String packet) =>
-      hookedServices[ServiceReference.fromString(topic)]
-          ?.add(ServiceMessage.fromJSONString(packet));
+      hookedServices[topic]?.add(ServiceMessage.fromJSONString(packet));
 }
