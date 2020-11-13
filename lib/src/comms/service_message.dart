@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bakecode/bakecode.dart';
 import 'package:bakecode/src/comms/broadcast_service.dart';
 import 'package:meta/meta.dart';
@@ -30,6 +32,16 @@ class ServiceMessage {
         destinations: [BroadcastService().reference],
         message: message,
       );
+
+  factory ServiceMessage.fromJSONString(String packet) {
+    var p = jsonDecode(packet);
+
+    return ServiceMessage(
+      source: ServiceReference.fromString(p['source']),
+      destinations: p['destination'].map((d) => ServiceReference.fromString(d)),
+      message: p['message'].toString(),
+    );
+  }
 
   @override
   String toString() => """
