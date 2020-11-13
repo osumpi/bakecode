@@ -25,7 +25,7 @@ class ServiceReference extends Equatable {
   /// * Should not contain spaces.
   /// * Should not use uncommon characters or any special characters.
   /// * Should not contain `/`.
-  /// * Should be relevant to the service / ServiceReference layer.
+  /// * Should be relevant to the [Service] layer.
   ///
   /// **Example:**
   /// ```dart
@@ -56,7 +56,7 @@ class ServiceReference extends Equatable {
   /// * Should not contain spaces.
   /// * Should not use uncommon characters or any special characters.
   /// * Should not contain `/`.
-  /// * Should be relevant to the service / ServiceReference layer.
+  /// * Should be relevant to the [Service] layer.
   ///
   /// **Example:**
   /// ```dart
@@ -75,6 +75,36 @@ class ServiceReference extends Equatable {
   /// ```
   factory ServiceReference.root(String root) =>
       ServiceReference(root, parent: null);
+
+  /// Creates an instance of ServiceReference from the specified string
+  /// representation of the ServiceReference as the [path].
+  ///
+  /// i.e.,
+  /// ```
+  /// var ref = ServiceReference.fromString('bakecode/hw');
+  /// print(ref.child('dispenser'));
+  /// ```
+  ///
+  /// *Output:*
+  /// `bakecode/hw/dispenser`
+  ///
+  /// `path` must follow MQTT topic guidelines.
+  /// * Use only ASCII Characters, and avoid non-printable characters.
+  /// * Should not contain spaces.
+  /// * Should not use uncommon characters or any special characters.
+  /// * Should be relevant to the [Service] layer.
+  ///
+  factory ServiceReference.fromString(String path) {
+    var levels = path.split('/');
+
+    var root = ServiceReference.root(levels[0]);
+
+    if (levels.length == 1) return root;
+
+    return levels
+        .sublist(1)
+        .fold<ServiceReference>(root, (parent, name) => parent.child(name));
+  }
 
   /// Returns true if no parent exists.
   /// ```dart
