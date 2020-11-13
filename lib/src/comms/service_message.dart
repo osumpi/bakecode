@@ -102,8 +102,10 @@ class ServiceMessage {
     } catch (e) {
       log.e("""
       $e
-
+      
       Received packet as raw: $packet
+
+      Ignoring packet.
       """);
     }
   }
