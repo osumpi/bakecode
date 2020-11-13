@@ -10,8 +10,7 @@ abstract class Service {
   /// Registers onMessage stream controller's sink for listening to messages
   /// related to [context].
   Service() {
-    Mqtt.addListener(topic: '$path', sink: _onReceiveSink);
-    _onReceiveController.stream.listen(print);
+    BSI.instance.hook(this, sink: _onReceiveSink);
   }
 
   /// Provides a handle for BakeCode services.
@@ -22,18 +21,16 @@ abstract class Service {
   /// Exposes all incoming messages for this service.
   ///
   /// Listen to messages that is addressed to this service.
-  Stream<String> get onReceiveStream => _onReceiveController.stream;
+  Stream<ServiceMessage> get onReceive => _onReceiveController.stream;
 
   /// Publishes a [message] on [topic].
   /// By default [topic] is [path].
   @mustCallSuper
-  void nofify(ServiceReference to, {@required String msg}) =>
-      // TODO: add envelope to msg
-      Mqtt.publish(msg, topic: to);
+  void nofify(ServiceReference to, {@required String msg}) {}
 
   /// Sink of [_onReceiveController].
-  StreamSink<String> get _onReceiveSink => _onReceiveController.sink;
+  StreamSink<ServiceMessage> get _onReceiveSink => _onReceiveController.sink;
 
   /// Stream controller for on message events.
-  final _onReceiveController = StreamController<String>();
+  final _onReceiveController = StreamController<ServiceMessage>();
 }
