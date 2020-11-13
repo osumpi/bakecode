@@ -51,7 +51,8 @@ class MqttConnection {
     this.authentication_password = '',
   });
 
-  bool get requiresAuthentication =>
+  /// Returns true if authentication credentials are specified.
+  bool get hasAuthentication =>
       authentication_username != '' || authentication_password != '';
 
   @override

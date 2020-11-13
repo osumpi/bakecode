@@ -1,48 +1,61 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:bakecode/bakecode.dart';
 import 'package:meta/meta.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
-/// MQTT handling layer.
+export 'broadcast_service.dart';
+export 'connection.dart';
+export 'service_message.dart';
+
+/// **BakeCode Services Interconnect Layer**
 ///
-/// This class presents a set of methods for the Kernel and Runtime to interact
-/// with the BakeCode Ecosystem.
+/// This singleton presents a set of methods to interact with the *BakeCode
+/// Ecosystem* using MQTT as the L7 Application Layer Protocol.
 @sealed
-class Mqtt {
-  /// Notifies the [sink] for every payload received in [topic].
-  ///
-  /// If the topic is new, Mqtt client makes a subscription on that topic and
-  /// then adds the listener to the list.
-  static void addListener({
-    @required String topic,
-    @required StreamSink<String> sink,
-  }) {
-    if (!_subscriberSinks.containsKey(topic)) _subscriberSinks[topic] = List();
-    _subscriberSinks[topic].add(sink);
+class BSI {
+  /// Private generic empty constructor for singleton implementation.
+  const BSI._();
+
+  /// The singleton instance of BakeCode Services Interconnect Layer.
+  static final instance = BSI._();
+
+  /// Redirecting factory constructor to the singleton instance.
+  factory BSI() => instance;
+
+  void hookService({@required Service service}) {
+    // TODO: do this...
   }
 
+  void unhookService({@required Service service}) {
+    // TODO: do this...
+  }
+}
+
+@sealed
+class _Mqtt {
+  /// Private generic empty constructor for singleton implementation.
+  _Mqtt._();
+
+  /// The singleton instance.
+  static final instance = _Mqtt._();
+
+  /// Redirecting factory constructor to the singleton instance.
+  factory _Mqtt() => instance;
+
   /// Instance of [MqttServerClient].
-  ///
-  /// Is the main interfacing client for this kernel.
-  static final MqttServerClient _client = MqttServerClient('localhost', 'BCRT');
+  final MqttServerClient client = MqttServerClient('0.0.0.0', 'bakecode');
 
-  /// The default QOS level to be used is [MqttQos.atLeastOnce].
-  static const MqttQos _qos = MqttQos.atMostOnce;
-
-  /// Contains all [BakeCodeService] subscriber's sink for each topic.
-  ///
-  /// A Key-value pair map where keys are the topics and values are the
-  /// corresponding listener sinks.
-  static final Map<String, List<StreamSink<String>>> _subscriberSinks = Map();
+  /// QOS to be used for all messages.
+  final MqttQos qos = MqttQos.exactlyOnce;
 
   /// Receives and broadcasts subscriptions to appropriate listeners.
   ///
   /// The received subscription update's topic and payload is extracted and
   /// then broadcasts the payload to it's appropriate topic listeners.
-  static void _subscriptionReceived(
-      List<MqttReceivedMessage<MqttMessage>> packet) {
+  static void onReceive(List<MqttReceivedMessage<MqttMessage>> packet) {
     final String topic = packet[0].topic;
     final String message = MqttPublishPayload.bytesToStringAsString(
         (packet[0].payload as MqttPublishMessage).payload.message);
@@ -51,9 +64,9 @@ class Mqtt {
   }
 
   /// Connects the [_client] to the broker.
-  static void _connect() async {
+  static Future<MqttClientConnectionStatus> _connect() async {
     try {
-      await _client.connect();
+      return await _client.connect();
     } on NoConnectionException catch (e) {
       print(e);
       _client.disconnect();
@@ -61,6 +74,7 @@ class Mqtt {
       print(e);
       _client.disconnect();
     }
+    return _client.connectionStatus;
   }
 
   static void _subscribe(String topic) => _client.subscribe(topic, _qos);
@@ -110,7 +124,7 @@ class Mqtt {
         .withWillMessage('DISCON')
         .withWillQos(_qos);
 
-    await _connect();
+    print((await _connect()).state);
 
     // Subscribe and setup streams...
 

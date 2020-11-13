@@ -1,4 +1,5 @@
 import 'package:bakecode/bakecode.dart';
+import 'package:bakecode/src/comms/broadcast_service.dart';
 import 'package:meta/meta.dart';
 
 @immutable
