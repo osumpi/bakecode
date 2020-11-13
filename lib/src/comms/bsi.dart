@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bakecode/bakecode.dart';
 import 'package:meta/meta.dart';
 
@@ -12,7 +14,7 @@ export 'service_message.dart';
 @sealed
 class BSI {
   /// Private generic empty constructor for singleton implementation.
-  const BSI._();
+  BSI._();
 
   /// The singleton instance of BakeCode Services Interconnect Layer.
   static final instance = BSI._();
@@ -20,13 +22,15 @@ class BSI {
   /// Redirecting factory constructor to the singleton instance.
   factory BSI() => instance;
 
-  void hookService({@required Service service}) {
-    // TODO: do this...
-  }
+  final hookedServices = <ServiceReference, StreamSink<ServiceMessage>>{};
 
-  void unhookService({@required Service service}) {
-    // TODO: do this...
-  }
+  void hook(Service service, {@required StreamSink<ServiceMessage> sink}) =>
+      hookedServices.putIfAbsent(service.reference, () => sink);
 
-  void onReceiveCallback(String topic, String packet) {}
+  void unhook(Service service) =>
+      hookedServices.remove(service.reference)?.close();
+
+  void onReceiveCallback(String topic, String packet) =>
+      hookedServices[ServiceReference.fromString(topic)]
+          ?.add(ServiceMessage.fromJSONString(packet));
 }

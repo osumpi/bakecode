@@ -10,6 +10,6 @@ class BroadcastService extends Service {
   @override
   ServiceReference get reference => BakeCode().reference.child('broadcast');
 
-  Stream<String> get publicServiceAnnouncement =>
-      onReceiveStream.asBroadcastStream();
+  Stream<ServiceMessage> get publicServiceAnnouncement =>
+      onReceive.asBroadcastStream();
 }
