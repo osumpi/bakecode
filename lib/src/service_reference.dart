@@ -109,7 +109,7 @@ class ServiceReference extends Equatable {
   /// Returns true if no parent exists.
   /// ```dart
   /// ('bakecode' as ServiceReference).isRoot == true;
-  /// ('bakecode/eco/hw' as ServiceReference).isR`oot == false;
+  /// ('bakecode/eco/hw' as ServiceReference).isRoot == false;
   /// ```
   bool get isRoot => parent == null;
 
