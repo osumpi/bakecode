@@ -66,7 +66,7 @@ class ServiceMessage {
   ///
   /// ServiceMessage.broadcast(source: this, message: msg);
   /// ```
-  factory ServiceMessage.broadcast({
+  factory ServiceMessage.asBroadcast({
     @required ServiceReference source,
     @required String message,
   }) =>
