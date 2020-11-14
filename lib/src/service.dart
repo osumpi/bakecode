@@ -23,6 +23,10 @@ abstract class Service {
   /// Listen to messages that is addressed to this service.
   Stream<ServiceMessage> get onReceive => _onReceiveController.stream;
 
+  /// Sends a broadcast message.
+  ///
+  /// All nodes in the bakecode ecosystem may listen to the broadcast messages.
+  @mustCallSuper
   void broadcast(String message) => BSI.instance
       .send(ServiceMessage.asBroadcast(source: reference, message: message));
 
