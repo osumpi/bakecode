@@ -23,6 +23,9 @@ abstract class Service {
   /// Listen to messages that is addressed to this service.
   Stream<ServiceMessage> get onReceive => _onReceiveController.stream;
 
+  void broadcast(String message) => BSI.instance
+      .send(ServiceMessage.asBroadcast(source: reference, message: message));
+
   /// Publishes a [message] on [topic].
   /// By default [topic] is [path].
   @mustCallSuper
