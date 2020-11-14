@@ -1,0 +1,51 @@
+# BakeCode Ecosystem Gateway Settings
+
+# BakeCode Services Interconnect Layer
+BSI:
+
+    # Allow faulty packets to pass-through.
+    #
+    # Expected: bool
+    # Default: disabled/false
+    #    
+    # Recieved packets are passed as raw to the service,
+    # if packets fail parsing.
+    #
+    # Service will recieve ServiceMessage as:
+    # { source: null, destination: null, message: $packet, ... }
+    # 
+    show pity on BSI packets: true
+
+    # Timestamp all outgoing packets.
+    # 
+    # Expected: bool
+    # Default: disabled/false
+    #
+    # ServiceMessage format:
+    # { ..., airedOn: $DateTime.now() }
+    timestamp outgoing packets: false
+
+    # Unsent messages will be discarded on reconnect if true. 
+    #
+    # Expected: bool
+    # Default: disabled/false
+    drain outbox on reconnect: false
+
+# MQTT Client Connection
+MQTT:
+
+    # The MQTT broker's address
+    # Example: "192.168.0.3", "localhost"
+    broker: '192.168.0.3'
+
+    # MQTT broker's listening port
+    # 
+    # Default for mosquitto broker is 1883 (not secure)
+    # Default for VerneMQ broker is 1884 (not secure)
+    port: 1883
+
+    # MQTT broker authentication username
+    username: ''
+
+    # MQTT broker authentication password
+    password: ''

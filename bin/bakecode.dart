@@ -132,6 +132,7 @@ class ValidateConfigurationCommand extends Command {
     _validate(config, 'BSI');
     _validate<bool>(config['BSI'], 'show pity on BSI packets');
     _validate<bool>(config['BSI'], 'timestamp outgoing packets');
+    _validate<bool>(config['BSI'], 'drain outbox on reconnect');
 
     print(
         'Validation of configuration file at ${configFile.absolute.path} has been completed.');
