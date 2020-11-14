@@ -33,7 +33,7 @@ abstract class Service {
   /// Publishes a [message] on [topic].
   /// By default [topic] is [path].
   @mustCallSuper
-  void nofify(ServiceReference to, {@required String message}) =>
+  void notify(ServiceReference to, {@required String message}) =>
       BSI.instance.send(ServiceMessage(
           source: reference, destinations: [to], message: message));
 
