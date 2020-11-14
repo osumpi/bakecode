@@ -18,6 +18,11 @@ abstract class Service {
   /// Path makes every [Service]s to be identifiable.
   ServiceReference get reference;
 
+  /// [ServiceReference] of the state of this service.
+  ///
+  /// All [StateService] associated w/ a [Service] resides here.
+  ServiceReference get state => reference.child('state');
+
   /// Exposes all incoming messages for this service.
   ///
   /// Listen to messages that is addressed to this service.
