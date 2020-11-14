@@ -132,9 +132,10 @@ class Mqtt {
   ///
   /// The QOS used by default will be [MqttQos.atLeastOnce].
   /// However this can be overriden by specifying the [qos].
-  void publish(String message, {@required String to, MqttQos qos = qos}) =>
-      client.publishMessage(
-          to, qos, (MqttClientPayloadBuilder()..addString(message)).payload);
+  ///
+  /// TODO: message retain functionallity
+  int publish(String message, {@required String to}) => client.publishMessage(
+      to, qos, (MqttClientPayloadBuilder()..addString(message)).payload);
 
   /// Updates the `_connectionStateStreamController` w/ latest state.
   void updateConnectionState() =>
