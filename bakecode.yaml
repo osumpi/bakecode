@@ -36,7 +36,7 @@ MQTT:
 
     # The MQTT broker's address
     # Example: "192.168.0.3", "localhost"
-    broker: '192.168.0.3'
+    broker: '192.168.0.2'
 
     # MQTT broker's listening port
     # 

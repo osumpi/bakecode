@@ -45,7 +45,7 @@ class Mqtt {
       ..onSubscribeFail = ((topic) => log.e('subscription failed'))
       ..onSubscribed = ((topic) => log.d('$topic subscribed'))
       ..onUnsubscribed = ((topic) => log.d('$topic unsubscribed'))
-      ..pongCallback = (() => log.v('pong at ${DateTime.now()}'))
+      // ..pongCallback = (() => log.v('pong at ${DateTime.now()}'))
       ..published
       ..updates
       ..logging(on: false)
@@ -111,8 +111,6 @@ class Mqtt {
 
   /// Subscribes failed subscriptions and listen for updates.
   void onConnected() {
-    log.d('mqtt::connected');
-
     pendingSubscriptions.forEach(subscribe);
 
     client.updates.listen((e) => onReceive(e[0]));
