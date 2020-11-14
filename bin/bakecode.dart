@@ -1,10 +1,8 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:bakecode/bakecode.dart';
 import 'package:bakecode/src/comms/mqtt/mqtt.dart';
-import 'package:meta/meta.dart';
 import 'package:yaml/yaml.dart';
 
 class RunCommand extends Command {
@@ -101,7 +99,7 @@ class ValidateConfigurationCommand extends Command {
     );
   }
 
-  Future<bool> run() async {
+  Future<void> run() async {
     Map config;
 
     File configFile = File(argResults['config-file']);
