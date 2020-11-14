@@ -33,7 +33,9 @@ abstract class Service {
   /// Publishes a [message] on [topic].
   /// By default [topic] is [path].
   @mustCallSuper
-  void nofify(ServiceReference to, {@required String msg}) {}
+  void nofify(ServiceReference to, {@required String message}) =>
+      BSI.instance.send(ServiceMessage(
+          source: reference, destinations: [to], message: message));
 
   /// Sink of [_onReceiveController].
   StreamSink<ServiceMessage> get _onReceiveSink => _onReceiveController.sink;
