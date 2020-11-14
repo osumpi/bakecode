@@ -1,9 +1,7 @@
 import 'package:bakecode/bakecode.dart';
 
 class BakeCode extends Service {
-  BakeCode._() {
-    onReceive.listen(print);
-  }
+  BakeCode._();
 
   static final instance = BakeCode._();
 
@@ -12,5 +10,11 @@ class BakeCode extends Service {
   @override
   ServiceReference get reference => ServiceReference.root('bakecode');
 
-  Future run() async => await print('$reference is running...');
+  Future run() async {
+    print('$reference is running...');
+
+    onReceive.listen(print);
+    notify(reference, message: 'online');
+    broadcast('online');
+  }
 }

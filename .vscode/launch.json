@@ -10,7 +10,7 @@
             "program": "bin/bakecode.dart",
             "type": "dart",
             "args": [
-                "validate-config",
+                "run",
             ],
         }
     ]

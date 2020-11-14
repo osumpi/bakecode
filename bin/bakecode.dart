@@ -54,7 +54,7 @@ class RunCommand extends Command {
       log.v("Using custom configuration: '${argResults['config-file']}'");
     }
 
-    await Mqtt().initialize(using: MqttConnection.fromMap(config['mqtt']));
+    await Mqtt().initialize(using: MqttConnection.fromMap(config['MQTT']));
 
     return BakeCode.instance.run();
   }
