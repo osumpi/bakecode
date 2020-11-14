@@ -45,7 +45,7 @@ class ServiceMessage {
   /// var src = this.reference;
   /// var msg = getMessage();
   ///
-  /// ServiceMessage.broadcast(source: this, message: msg);
+  /// ServiceMessage.asBroadcast(source: this, message: msg);
   /// ```
   const ServiceMessage({
     @required this.source,
@@ -70,7 +70,7 @@ class ServiceMessage {
   /// var src = this.reference;
   /// var msg = getMessage();
   ///
-  /// ServiceMessage.broadcast(source: this, message: msg);
+  /// ServiceMessage.asBroadcast(source: this, message: msg);
   /// ```
   factory ServiceMessage.asBroadcast({
     @required ServiceReference source,
