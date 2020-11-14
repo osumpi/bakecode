@@ -145,5 +145,5 @@ class Mqtt {
 
   /// Broadcast stream for client's connection state.
   Stream<MqttConnectionState> get connectionState =>
-      _connectionStateStreamController.stream;
+      _connectionStateStreamController.stream.asBroadcastStream();
 }
