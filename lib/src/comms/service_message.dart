@@ -23,6 +23,9 @@ class ServiceMessage {
 
   /// Creates a new ServiceMessage packet.
   ///
+  /// Note that this does not send the message. [ServiceMessage] is only
+  /// intended to construct a packet compatible with the BSI layer.
+  ///
   /// Destination is multi-cast by default. However for uni-cast specify the
   /// target destination as a single element in the destinations list.
   ///
@@ -54,6 +57,9 @@ class ServiceMessage {
 
   /// Creates a new ServiceMessage packet with destination as `broadcast`.
   ///
+  /// Note that this does not send the message. [ServiceMessage] is only
+  /// intended to construct a packet compatible with the BSI layer.
+  ///
   /// Every bakecode node is capable of receiving broadcast messages.
   /// Avoid manually specifying destination using ServiceMessage constructor
   /// for broadcast purposes, as using ServiceMessage.broadcast uses broadcast
@@ -77,6 +83,9 @@ class ServiceMessage {
       );
 
   /// Creates a ServiceMessage packet from json string.
+  ///
+  /// Note that this does not send the message. [ServiceMessage] is only
+  /// intended to construct a packet compatible with the BSI layer.
   ///
   /// Shall be used by BSI layer to decode packets.
   /// Packet follows json format:
