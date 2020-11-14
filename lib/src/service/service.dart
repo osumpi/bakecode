@@ -32,14 +32,14 @@ abstract class Service {
   ///
   /// All nodes in the bakecode ecosystem may listen to the broadcast messages.
   @mustCallSuper
-  void broadcast(String message) => BSI.instance
-      .send(ServiceMessage.asBroadcast(source: reference, message: message));
+  void broadcast(String message) => BSI.instance.outbox
+      .add(ServiceMessage.asBroadcast(source: reference, message: message));
 
   /// Publishes a [message] on [topic].
   /// By default [topic] is [path].
   @mustCallSuper
   void notify(ServiceReference to, {@required String message}) =>
-      BSI.instance.send(ServiceMessage(
+      BSI.instance.outbox.add(ServiceMessage(
           source: reference, destinations: [to], message: message));
 
   /// Sink of [_onReceiveController].

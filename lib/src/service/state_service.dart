@@ -25,6 +25,6 @@ class StateService implements Service {
   get onReceive => throw UnsupportedError(
       "$runtimeType's are not allowed to receive messages");
 
-  void update({@required String state}) => BSI().send(ServiceMessage(
+  void update({@required String state}) => BSI().outbox.add(ServiceMessage(
       source: reference, destinations: [reference], message: state));
 }
