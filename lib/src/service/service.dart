@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:bakecode/src/service_reference.dart';
+import 'package:bakecode/src/service/reference.dart';
 import 'package:bakecode/src/comms/bsi.dart';
 import 'package:meta/meta.dart';
 
