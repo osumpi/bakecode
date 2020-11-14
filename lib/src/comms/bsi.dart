@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bakecode/bakecode.dart';
+import 'package:bakecode/src/comms/mqtt/mqtt.dart';
 import 'package:meta/meta.dart';
 
 export 'broadcast_service.dart';
@@ -21,6 +22,10 @@ class BSI {
 
   /// Redirecting factory constructor to the singleton instance.
   factory BSI() => instance;
+
+  /// Sends [message] to the corresponding destinations specified in packet.
+  void send(ServiceMessage message) => message.destinations.forEach(
+      (destination) => Mqtt.instance.publish('$message', to: '$destination'));
 
   final hookedServices = <String, StreamSink<ServiceMessage>>{};
 
