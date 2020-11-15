@@ -6,7 +6,7 @@ import 'package:meta/meta.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 
 export 'broadcast_service.dart';
-export 'mqtt/mqtt_connection.dart';
+export 'mqtt/mqtt.dart';
 export 'service_message.dart';
 
 /// **BakeCode Services Interconnect Layer**

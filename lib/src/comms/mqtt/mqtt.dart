@@ -6,6 +6,8 @@ import 'package:meta/meta.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
+export 'mqtt_connection.dart';
+
 @sealed
 class Mqtt {
   /// Private generic empty constructor for singleton implementation.
