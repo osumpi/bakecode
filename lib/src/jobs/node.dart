@@ -33,4 +33,6 @@ abstract class Node {
   /// To make a forward conection to a single node, use [connectTo].
   @nonVirtual
   void connectToAll(List<Node> nodes) => nodes.map(connectTo);
+
+  Future<FlowContext> run(FlowContext context);
 }
