@@ -1,10 +1,13 @@
 import 'package:meta/meta.dart';
+import 'package:yaml/yaml.dart';
 
 @immutable
 class FlowContext {
-  final String data;
+  final data;
 
-  FlowContext.fromString(this.data);
+  FlowContext.fromString(String data)
+      : assert(data != null),
+        data = loadYaml(data);
 
   toString() => '''
   FlowContext:
