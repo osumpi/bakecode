@@ -1,5 +1,24 @@
 # BakeCode Ecosystem Gateway Settings
 
+# MQTT Client Connection
+MQTT:
+
+    # The MQTT broker's address
+    # Example: "192.168.0.3", "localhost"
+    broker: '192.168.0.2'
+
+    # MQTT broker's listening port
+    # 
+    # Default for mosquitto broker is 1883 (not secure)
+    # Default for VerneMQ broker is 1884 (not secure)
+    port: 1883
+
+    # MQTT broker authentication username
+    username: ''
+
+    # MQTT broker authentication password
+    password: ''
+
 # BakeCode Services Interconnect Layer
 BSI:
 
@@ -31,21 +50,5 @@ BSI:
     # Default: disabled/false
     drain outbox on reconnect: false
 
-# MQTT Client Connection
-MQTT:
-
-    # The MQTT broker's address
-    # Example: "192.168.0.3", "localhost"
-    broker: '192.168.0.2'
-
-    # MQTT broker's listening port
-    # 
-    # Default for mosquitto broker is 1883 (not secure)
-    # Default for VerneMQ broker is 1884 (not secure)
-    port: 1883
-
-    # MQTT broker authentication username
-    username: ''
-
-    # MQTT broker authentication password
-    password: ''
+Flows:
+    node is one time run: false
