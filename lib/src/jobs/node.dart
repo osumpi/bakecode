@@ -21,6 +21,15 @@ abstract class Node {
   @nonVirtual
   void connectTo(Node node) => output.addEndPoint(node);
 
-  /// Makes a forward connection from this node to all [nodes].
+  /// Connects the instance node to every [Node] in [nodes].
+  ///
+  /// For `A` as the instance node and `B` as a Node in [nodes],
+  /// ```dart
+  /// A.connect(B);
+  /// ```
+  /// makes a new **forward connection** from `A` to `B`, such that `B` listens
+  /// to `A`'s [output] connection.
+  ///
+  /// To make a forward conection to a single node, use [connectTo].
   void connectToAll(List<Node> nodes) => nodes.map(connectTo);
 }
