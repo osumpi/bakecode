@@ -6,6 +6,7 @@ import 'package:meta/meta.dart';
 import 'flow_context.dart';
 
 @immutable
+@sealed
 class Connection {
   final endPoints = <Node>[];
 
