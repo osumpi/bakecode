@@ -2,7 +2,7 @@ import 'package:bakecode/src/jobs/connection.dart';
 import 'package:bakecode/src/jobs/jobs.dart';
 import 'package:meta/meta.dart';
 
-/// A connectable element.
+/// A connectable element with multiple inputs and single output.
 abstract class Node {
   /// All inbound connections to this node.
   @nonVirtual
