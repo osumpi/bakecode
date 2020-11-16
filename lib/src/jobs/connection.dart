@@ -10,15 +10,11 @@ import 'flow_context.dart';
 class Connection {
   final endPoints = <Node>[];
 
-  final _flowContextController = StreamController<FlowContext>();
-
-  Sink<FlowContext> get _contextSink => _flowContextController.sink;
-
-  Stream<FlowContext> get _contextStream => _flowContextController.stream;
+  final _flow = StreamController<FlowContext>();
 
   void addEndPoint(Node node) {
     endPoints.add(node);
-    _contextStream.listen((context) async => node.output._contextSink
+    _flow.stream.listen((context) async => node.output._flow.sink
       ..add(await node.run(context))
       ..close());
   }
