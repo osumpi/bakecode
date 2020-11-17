@@ -1,12 +1,23 @@
+import 'dart:async';
+
+import 'package:bakecode/bakecode.dart';
 import 'package:bakecode/src/jobs/connection.dart';
 import 'package:bakecode/src/jobs/jobs.dart';
 import 'package:meta/meta.dart';
 
 /// A connectable element.
-abstract class Node {
-  /// The outbound connection from this node.
-  @nonVirtual
-  final output = Connection();
+class Node extends Service {
+  final inputs = <InputConnection>[];
+
+  final outputs = <OutputConnection>[];
+
+  Sink<FlowContext> get sink => _flowController.sink;
+
+  final _flowController = StreamController<FlowContext>();
+
+  Node() {
+    _flowController.stream;
+  }
 
   /// Connects the instance node to the specified [node].
   ///

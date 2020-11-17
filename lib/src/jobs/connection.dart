@@ -8,16 +8,13 @@ import 'flow_context.dart';
 @immutable
 @sealed
 class Connection {
-  final endPoints = <Node>[];
-
   final _flow = StreamController<FlowContext>();
+}
 
-  void addEndPoint(Node node) {
-    endPoints.add(node);
-    _flow.stream.listen((context) async => node.output._flow.sink
-      ..add(await node.run(context))
-      ..close());
-  }
+class InputConnection extends Connection {
+  Stream<FlowContext> get stream => _flow.stream;
+}
 
-  bool get isClosure => endPoints.isEmpty;
+class OutputConnection extends Connection {
+  Sink<FlowContext> get sink => _flow.sink;
 }
