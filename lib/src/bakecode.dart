@@ -1,6 +1,7 @@
 import 'package:bakecode/bakecode.dart';
+import 'package:bakecode/src/service/states.dart';
 
-class BakeCode extends Service {
+class BakeCode extends Service with States {
   BakeCode._();
 
   static final instance = BakeCode._();
