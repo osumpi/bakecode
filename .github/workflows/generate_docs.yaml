@@ -12,5 +12,6 @@ jobs:
   run_dartdoc:
     runs-on: ubuntu-latest
     steps:
+      - uses: cedx/setup-dart@v2.3.0
       - uses: actions/checkout@v2
       - run: dartdoc
