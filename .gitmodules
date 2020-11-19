@@ -1,0 +1,3 @@
+[submodule "bakecode-jobs"]
+	path = bakecode-jobs
+	url = git@github.com:crysalisdevs/bakecode-jobs.git
