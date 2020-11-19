@@ -17,3 +17,10 @@ jobs:
           submodules: true
       - uses: cedx/setup-dart@v2.3.0
       - run: dartdoc
+      
+      - name: Add & Commit
+        uses: EndBug/add-and-commit@v5.2.0
+        with:
+          author_name: DocBot
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this line unchanged
