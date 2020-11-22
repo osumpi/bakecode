@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:bakecode/bakecode.dart';
-import 'package:bakecode/src/comms/mqtt/mqtt.dart';
+import 'package:bakecode/logger.dart';
+import 'package:bsi_dart/bsi_dart.dart';
 import 'package:yaml/yaml.dart';
 
 class RunCommand extends Command {
