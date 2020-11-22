@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the name property from the BakeCode class, for the Dart programming language.">
-  <title>name property - BakeCode class - bakecode library - Dart API</title>
+  <meta name="description" content="API docs for the notify method from the BakeCode class, for the Dart programming language.">
+  <title>notify method - BakeCode class - bakecode library - Dart API</title>
 
   
   <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
@@ -27,9 +27,9 @@
     <li><a href="../../index.html">bakecode</a></li>
     <li><a href="../../bakecode/bakecode-library.html">bakecode</a></li>
     <li><a href="../../bakecode/BakeCode-class.html">BakeCode</a></li>
-    <li class="self-crumb">name property</li>
+    <li class="self-crumb">notify method</li>
   </ol>
-  <div class="self-name">name</div>
+  <div class="self-name">notify</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -48,7 +48,7 @@
       <li><a href="../../index.html">bakecode</a></li>
       <li><a href="../../bakecode/bakecode-library.html">bakecode</a></li>
       <li><a href="../../bakecode/BakeCode-class.html">BakeCode</a></li>
-      <li class="self-crumb">name property</li>
+      <li class="self-crumb">notify method</li>
     </ol>
     
     <h5>BakeCode class</h5>
@@ -88,23 +88,34 @@
   </div><!--/.sidebar-offcanvas-->
 
   <div id="dartdoc-main-content" class="col-xs-12 col-sm-9 col-md-8 main-content">
-      <div><h1><span class="kind-property">name</span> property </h1></div>
+      <div><h1><span class="kind-method">notify</span> method </h1></div>
 
+    <section class="multi-line-signature">
+      <div>
+        <ol class="annotation-list">
+          <li>@<a href="https://pub.dev/documentation/meta/1.2.3/meta/mustCallSuper-constant.html">mustCallSuper</a></li>
+        </ol>
+      </div>
+      <span class="returntype">void</span>
+            <span class="name ">notify</span>
+(<wbr><ol class="parameter-list"><li><span class="parameter" id="notify-param-to"><span class="type-annotation">ServiceReference</span> <span class="parameter-name">to</span>, </span></li>
+<li><span class="parameter" id="notify-param-message">{<span>@<a href="https://pub.dev/documentation/meta/1.2.3/meta/required-constant.html">required</a></span> <span class="type-annotation"><a href="https://api.dart.dev/stable/2.10.4/dart-core/String-class.html">String</a></span> <span class="parameter-name">message</span>}</span></li>
+</ol>)
+      <div class="features">@<a href="https://pub.dev/documentation/meta/1.2.3/meta/mustCallSuper-constant.html">mustCallSuper</a>, inherited</div>
+    </section>
+    <section class="desc markdown">
+      <p>Publishes a <code>message</code> on <code>topic</code>.
+By default <code>topic</code> is <code>path</code>.</p>
+    </section>
+    
+    <section class="summary source-code" id="source">
+      <h2><span>Implementation</span></h2>
+      <pre class="language-dart"><code class="language-dart">@mustCallSuper
+void notify(ServiceReference to, {@required String message}) =&gt;
+    BSI.instance.outbox.add(ServiceMessage(
+        source: reference, destinations: [to], message: message));</code></pre>
+    </section>
 
-        <section id="getter">
-        
-        <section class="multi-line-signature">
-          <span class="returntype"><a href="https://api.dart.dev/stable/2.10.4/dart-core/String-class.html">String</a></span>
-                  <span class="name ">name</span>
-          <div class="features">inherited</div>
-</section>
-        
-                        <section class="summary source-code" id="source">
-          <h2><span>Implementation</span></h2>
-          <pre class="language-dart"><code class="language-dart">String get name =&gt; reference.name;</code></pre>
-        </section>
-</section>
-        
   </div> <!-- /.main-content -->
 
   <div id="dartdoc-sidebar-right" class="col-xs-6 col-sm-6 col-md-2 sidebar sidebar-offcanvas-right">
