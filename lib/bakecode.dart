@@ -1,6 +1,20 @@
-export "src/bakecode.dart";
-export "src/hardware.dart";
-export "src/logger.dart";
-export 'src/comms/bsi.dart';
-export 'src/service/service.dart';
-export 'src/service/reference.dart';
+import 'package:bsi_dart/bsi_dart.dart';
+
+class BakeCode extends Service with States {
+  BakeCode._();
+
+  static final instance = BakeCode._();
+
+  factory BakeCode() => instance;
+
+  @override
+  ServiceReference get reference => ServiceReference.root('bakecode');
+
+  Future run() async {
+    print('$reference is running...');
+
+    onReceive.listen(print);
+    notify(reference, message: 'online');
+    broadcast('online');
+  }
+}
