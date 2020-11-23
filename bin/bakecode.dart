@@ -6,6 +6,54 @@ import 'package:bakecode/logger.dart';
 import 'package:bsi_dart/bsi_dart.dart';
 import 'package:yaml/yaml.dart';
 
+Future<void> main(List<String> args) async {
+  CommandRunner('bakecode',
+      "BakeCode Ecosystem Kernel. See https://github.com/crysalisdevs/bakecode for more.")
+    ..addCommand(RunCommand())
+    ..addCommand(ConfigCommand())
+    ..addCommand(InitCommand())
+    ..addCommand(ValidateConfigurationCommand())
+    ..run(args);
+}
+
+class ConfigCommand extends Command {
+  @override
+  String get name => 'config';
+
+  @override
+  String get description => '''
+  Configure BakeCode Ecosystem Settings.
+
+  To remove a setting, configure it to an empty string.
+  ''';
+
+  ConfigCommand() {
+    argParser.addOption(
+      'mqtt-broker',
+      help: "The address of MQTT broker.",
+      valueHelp: '127.0.0.1',
+    );
+
+    argParser.addOption(
+      'mqtt-port',
+      help: "The port number at which MQTT broker instance is running.",
+      valueHelp: '1883',
+    );
+
+    argParser.addOption(
+      'mqtt-username',
+      help: "The username to be used to authenticate w/ the MQTT broker.",
+    );
+
+    argParser.addOption(
+      'mqtt-key',
+      help: "The password/key to be to authenticate w/ the MQTT broker.",
+    );
+  }
+
+  run() {}
+}
+
 class RunCommand extends Command {
   @override
   String get name => 'run';
@@ -161,10 +209,3 @@ class ValidateConfigurationCommand extends Command {
     }
   }
 }
-
-main(List<String> args) async => CommandRunner("bakecode",
-    "BakeCode Ecosystem Kernel. See https://github.com/crysalisdevs/bakecode for more.")
-  ..addCommand(RunCommand())
-  ..addCommand(InitCommand())
-  ..addCommand(ValidateConfigurationCommand())
-  ..run(args);

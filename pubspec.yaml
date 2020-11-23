@@ -19,7 +19,7 @@ dependencies:
   equatable:
   event_bus:
   mqtt_client:
-  dart_json_mapper:
+  json_serializable:
 
 dev_dependencies:
   build_test:
