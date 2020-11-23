@@ -14,7 +14,6 @@ dependencies:
   args: ^1.6.0
   meta:
   logger:
-  yaml:
   get_it:
   equatable:
   event_bus:
