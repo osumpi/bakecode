@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
@@ -27,17 +28,28 @@ class ConfigCommand extends Command {
   To remove a setting, configure it to an empty string.
   ''';
 
+  final specifiedConfig = <String, String>{};
+
+  bool showConfig = false;
+
   ConfigCommand() {
+    argParser.addFlag(
+      'show',
+      help: 'Shows the configurations',
+      callback: (value) => showConfig = value,
+    );
+
     argParser.addOption(
       'mqtt-broker',
       help: "The address of MQTT broker.",
-      valueHelp: '127.0.0.1',
+      valueHelp: 'address',
+      callback: (value) => specifiedConfig['mqtt-broker'] = value,
     );
 
     argParser.addOption(
       'mqtt-port',
       help: "The port number at which MQTT broker instance is running.",
-      valueHelp: '1883',
+      valueHelp: 'port number',
     );
 
     argParser.addOption(
@@ -51,7 +63,53 @@ class ConfigCommand extends Command {
     );
   }
 
-  run() {}
+  run() async {
+    Map config = {};
+    File configFile = File('config.yaml');
+
+    if (await configFile?.exists() == true) {
+      try {
+        config.addAll(loadYaml(await configFile.readAsString()));
+      } catch (e) {
+        print("""
+        Failed to load `config.yaml` properly.
+
+        Reason: 
+        $e
+
+        Possible solutions:
+        * Make sure only one Yaml document is present.
+        * Try deleting `config.yaml` and running `bakecode init` to create a fresh one.
+        """);
+      }
+    } else {
+      print("Creating `config.yaml`...");
+
+      try {
+        await configFile.create();
+      } on FileSystemException catch (e) {
+        print("""
+        Failed to create `config.yaml`.
+
+        Reason: 
+        $e
+        """);
+      }
+    }
+
+    if (config == null) return;
+
+    if (specifiedConfig.keys.isEmpty == false) {
+      print("Updating the following configurations: ${specifiedConfig.keys}");
+      config.addAll(specifiedConfig);
+
+      var encoder = JsonEncoder.withIndent('    ');
+      await configFile.writeAsString(encoder.convert(config));
+      showConfig = true;
+    }
+
+    if (showConfig) print(await configFile.readAsString());
+  }
 }
 
 class RunCommand extends Command {
