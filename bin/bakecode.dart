@@ -7,13 +7,126 @@ import 'package:bakecode/logger.dart';
 import 'package:bsi_dart/bsi_dart.dart';
 
 Future<void> main(List<String> args) async {
-  CommandRunner('bakecode',
-      "BakeCode Ecosystem Kernel. See https://github.com/crysalisdevs/bakecode for more.")
+  // Check existence of LICENSE.
+  if (await File('LICENSE').exists() == false) {
+    print("LICENSE not found");
+
+    return 0x01;
+  }
+  // Check T&C agreement.
+
+  CommandRunner(
+    'bakecode',
+    """
+BakeCode Ecosystem Kernel. See https://github.com/crysalisdevs/bakecode for more.
+
+Copyright (C) 2020, the BakeCode project authors.
+This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
+This is free software, and you are welcome to redistribute it
+under certain conditions; type `show c' for details.
+    """,
+  )
+    ..addCommand(ShowCommand())
     ..addCommand(RunCommand())
     ..addCommand(ConfigCommand())
     ..addCommand(InitCommand())
-    ..addCommand(ValidateConfigurationCommand())
     ..run(args);
+}
+
+class ShowCommand extends Command {
+  @override
+  String get name => 'show';
+
+  @override
+  String get description => """
+  Shows information related to BakeCode Ecosystem and the BakeCode Ecosystem Kernel.
+  """;
+
+  bool showWarranty = false;
+  bool showConditions = false;
+  bool showLicense = false;
+
+  ShowCommand() {
+    argParser.addFlag(
+      'warranty',
+      abbr: 'w',
+      help:
+          "Shows the warranty statement of the BakeCode project as stated in the LICENSE.",
+      callback: (value) => showWarranty = value ?? false,
+    );
+
+    argParser.addFlag(
+      'conditions',
+      abbr: 'c',
+      help:
+          "Shows the conditions for redistribution of the BakeCode project as stated in the LICENSE.",
+      callback: (value) => showConditions = value ?? false,
+    );
+
+    argParser.addFlag(
+      'license',
+      help: "Shows the LICENSE.",
+      callback: (value) => showLicense = value ?? false,
+    );
+  }
+
+  run() {
+    if (showWarranty) print("""
+  15. Disclaimer of Warranty.
+
+  THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY
+APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT
+HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY
+OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM
+IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF
+ALL NECESSARY SERVICING, REPAIR OR CORRECTION.""");
+
+    if (showConditions) print("""
+  """);
+  }
+}
+
+class RunCommand extends Command {
+  @override
+  String get name => 'run';
+
+  @override
+  List<String> get aliases => ['start', 'launch'];
+
+  @override
+  String get description => """
+  Run the BakeCode Ecosystem.
+  """;
+
+  run() async {
+    Map config;
+
+    File configFile = File('config.json');
+
+    if (await configFile?.exists() == true) {
+      try {
+        var content = await configFile.readAsString();
+        config = jsonDecode(content);
+      } catch (e) {
+        print("""
+        Couldn't read `${configFile.absolute.path}`.
+
+        Reason:
+        $e
+        """);
+      }
+    } else {
+      log.e("No config file exists at `${configFile.absolute.path}`");
+    }
+
+    if (config == null) return;
+
+    await Mqtt().initialize(using: MqttConnection.fromMap(config['MQTT']));
+
+    return BakeCode.instance.run();
+  }
 }
 
 class ConfigCommand extends Command {
@@ -21,11 +134,11 @@ class ConfigCommand extends Command {
   String get name => 'config';
 
   @override
-  String get description => '''
+  String get description => """
   Configure BakeCode Ecosystem Settings.
 
   To remove a setting, configure it to an empty string.
-  ''';
+  """;
 
   final specifiedConfig = <String, dynamic>{};
 
@@ -34,7 +147,7 @@ class ConfigCommand extends Command {
   ConfigCommand() {
     argParser.addFlag(
       'show',
-      help: 'Shows the configurations',
+      help: "Shows the configurations",
       callback: (value) => showConfig = value,
     );
 
@@ -68,6 +181,7 @@ class ConfigCommand extends Command {
 
   run() async {
     Map config = {};
+
     File configFile = File('config.json');
 
     if (await configFile?.exists() == true) {
@@ -104,10 +218,10 @@ class ConfigCommand extends Command {
 
     if (specifiedConfig.keys.isEmpty == false) {
       specifiedConfig.removeWhere((key, value) => value == null);
+
       config.addAll(specifiedConfig);
 
       var encoder = JsonEncoder.withIndent('    ');
-
       try {
         await configFile.writeAsString(encoder.convert(config));
       } catch (e) {
@@ -121,59 +235,6 @@ class ConfigCommand extends Command {
   }
 }
 
-class RunCommand extends Command {
-  @override
-  String get name => 'run';
-
-  @override
-  List<String> get aliases => ['start', 'launch'];
-
-  @override
-  String get description => """
-  Launch bakecode ecosystem.
-
-  Uses default config file if not specified. Explicitly specified options override options in config file.
-  """;
-
-  RunCommand() {
-    argParser.addOption(
-      'config-file',
-      abbr: 'c',
-      help: "Path to the configuration file",
-      defaultsTo: 'bakecode.yaml',
-    );
-  }
-
-  run() async {
-    Map config;
-
-    File configFile = File(argResults['config-file']);
-
-    if (await configFile?.exists() == true) {
-      log.v("Config file exists at '${argResults['config-file']}'.");
-
-      try {
-        var content = await configFile.readAsString();
-        config = jsonDecode(content);
-      } catch (exception) {
-        log.e('$exception');
-      }
-    } else {
-      log.e("No config file exists at '${argResults['config-file']}'");
-    }
-
-    if (config == null) return;
-
-    if (argResults.wasParsed('config-file')) {
-      log.v("Using custom configuration: '${argResults['config-file']}'");
-    }
-
-    await Mqtt().initialize(using: MqttConnection.fromMap(config['MQTT']));
-
-    return BakeCode.instance.run();
-  }
-}
-
 class InitCommand extends Command {
   @override
   String get name => 'init';
@@ -184,95 +245,4 @@ class InitCommand extends Command {
 
   If previously initialised, all the configuration will be purged. 
   """;
-}
-
-class MissingConfigurationException implements Exception {
-  final String configurationKey;
-
-  MissingConfigurationException(this.configurationKey);
-
-  @override
-  String toString() => "Configuration not found for '$configurationKey'";
-}
-
-class ValidateConfigurationCommand extends Command {
-  @override
-  String get name => 'validate-config';
-
-  @override
-  String get description => """
-  Configuration file validation tool.
-
-  Validates the specified configuration file.
-  """;
-
-  ValidateConfigurationCommand() {
-    argParser.addOption(
-      'config-file',
-      abbr: 'c',
-      help: "Path to the configuration file",
-      defaultsTo: 'bakecode.yaml',
-    );
-  }
-
-  Future<void> run() async {
-    Map config;
-
-    File configFile = File(argResults['config-file']);
-
-    if (await configFile?.exists() == true) {
-      log.v("Config file exists at '${argResults['config-file']}'.");
-
-      try {
-        var content = await configFile.readAsString();
-        config = jsonDecode(content);
-      } catch (exception) {
-        log.e('$exception');
-      }
-    } else {
-      log.e("No config file exists at '${argResults['config-file']}'");
-    }
-
-    if (config == null) return false;
-
-    if (argResults.wasParsed('config-file')) {
-      log.v("Using custom configuration: '${argResults['config-file']}'");
-    }
-
-    _validate<Map>(config, 'MQTT');
-    _validate<String>(config['MQTT'], 'broker');
-    _validate<int>(config['MQTT'], 'port');
-
-    _validate(config, 'BSI');
-    _validate<bool>(config['BSI'], 'show pity on BSI packets');
-    _validate<bool>(config['BSI'], 'timestamp outgoing packets');
-    _validate<bool>(config['BSI'], 'drain outbox on reconnect');
-
-    print(
-        'Validation of configuration file at ${configFile.absolute.path} has been completed.');
-  }
-
-  void _cfgError(String config, String reason) {
-    log.e("""
-      Parsing failed for configuration: '$config'.
-      Reason: $reason""");
-  }
-
-  void _validate<T>(dynamic map, String config, {bool canBeNull = false}) {
-    try {
-      if ((map as Map).containsKey(config) == false)
-        throw MissingConfigurationException(config);
-
-      if (map[config] as T == null && canBeNull == false)
-        throw ArgumentError.notNull('');
-    } on MissingConfigurationException {
-      _cfgError(config, 'Configuration not defined.');
-    } on ArgumentError {
-      _cfgError(config, 'Value cannot be null.');
-    } on TypeError {
-      _cfgError(config, "Expected $T; got: ${map[config].runtimeType};");
-    } catch (e) {
-      _cfgError(config, e);
-    }
-  }
 }
