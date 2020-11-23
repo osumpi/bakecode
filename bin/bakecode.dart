@@ -5,7 +5,6 @@ import 'package:args/command_runner.dart';
 import 'package:bakecode/bakecode.dart';
 import 'package:bakecode/logger.dart';
 import 'package:bsi_dart/bsi_dart.dart';
-import 'package:yaml/yaml.dart';
 
 Future<void> main(List<String> args) async {
   CommandRunner('bakecode',
@@ -28,7 +27,7 @@ class ConfigCommand extends Command {
   To remove a setting, configure it to an empty string.
   ''';
 
-  final specifiedConfig = <String, String>{};
+  final specifiedConfig = <String, dynamic>{};
 
   bool showConfig = false;
 
@@ -50,46 +49,50 @@ class ConfigCommand extends Command {
       'mqtt-port',
       help: "The port number at which MQTT broker instance is running.",
       valueHelp: 'port number',
+      callback: (value) =>
+          specifiedConfig['mqtt-port'] = int.tryParse(value ?? ''),
     );
 
     argParser.addOption(
       'mqtt-username',
       help: "The username to be used to authenticate w/ the MQTT broker.",
+      callback: (value) => specifiedConfig['mqtt-username'] = value,
     );
 
     argParser.addOption(
       'mqtt-key',
       help: "The password/key to be to authenticate w/ the MQTT broker.",
+      callback: (value) => specifiedConfig['mqtt-key'] = value,
     );
   }
 
   run() async {
     Map config = {};
-    File configFile = File('config.yaml');
+    File configFile = File('config.json');
 
     if (await configFile?.exists() == true) {
       try {
-        config.addAll(loadYaml(await configFile.readAsString()));
+        config.addAll(jsonDecode(await configFile.readAsString()));
       } catch (e) {
         print("""
-        Failed to load `config.yaml` properly.
+        Failed to load `config.json` properly.
 
         Reason: 
         $e
 
         Possible solutions:
         * Make sure only one Yaml document is present.
-        * Try deleting `config.yaml` and running `bakecode init` to create a fresh one.
+        * Try deleting `config.json` and running `bakecode init` to create a fresh one.
         """);
       }
     } else {
-      print("Creating `config.yaml`...");
+      print("Creating `config.json`...");
 
       try {
         await configFile.create();
       } on FileSystemException catch (e) {
         print("""
-        Failed to create `config.yaml`.
+        Failed to create `config.json`.
 
         Reason: 
         $e
@@ -100,15 +103,21 @@ class ConfigCommand extends Command {
     if (config == null) return;
 
     if (specifiedConfig.keys.isEmpty == false) {
-      print("Updating the following configurations: ${specifiedConfig.keys}");
+      specifiedConfig.removeWhere((key, value) => value == null);
       config.addAll(specifiedConfig);
 
       var encoder = JsonEncoder.withIndent('    ');
-      await configFile.writeAsString(encoder.convert(config));
-      showConfig = true;
-    }
 
-    if (showConfig) print(await configFile.readAsString());
+      try {
+        await configFile.writeAsString(encoder.convert(config));
+      } catch (e) {
+        print("""
+        Failed to write new configurations.
+        
+        Reason:
+        $e""");
+      }
+    }
   }
 }
 
@@ -145,7 +154,7 @@ class RunCommand extends Command {
 
       try {
         var content = await configFile.readAsString();
-        config = loadYaml(content);
+        config = jsonDecode(content);
       } catch (exception) {
         log.e('$exception');
       }
@@ -216,7 +225,7 @@ class ValidateConfigurationCommand extends Command {
 
       try {
         var content = await configFile.readAsString();
-        config = loadYaml(content);
+        config = jsonDecode(content);
       } catch (exception) {
         log.e('$exception');
       }
