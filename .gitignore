@@ -6,3 +6,4 @@
 build/
 
 *.backup
+*.exe
