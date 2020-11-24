@@ -17,7 +17,6 @@ dependencies:
   get_it:
   equatable:
   event_bus:
-  mqtt_client:
   json_serializable:
 
 dev_dependencies:

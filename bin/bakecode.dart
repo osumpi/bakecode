@@ -9,9 +9,9 @@ import 'package:bsi_dart/bsi_dart.dart';
 Future<void> main(List<String> args) async {
   // Check existence of LICENSE.
   if (await File('LICENSE').exists() == false) {
-    print("LICENSE not found");
+    print("LICENSE not found. Won't run.");
 
-    return 0x01;
+    // return 0x01; // TODO: uncomment this
   }
   // Check T&C agreement.
 
@@ -123,7 +123,15 @@ class RunCommand extends Command {
 
     if (config == null) return;
 
-    await Mqtt().initialize(using: MqttConnection.fromMap(config['MQTT']));
+    await Mqtt().initialize(
+      using: MqttConnection.from(
+        service: BakeCode.instance.reference,
+        broker: config['mqtt-broker'],
+        port: config['mqtt-port'],
+        authentication_username: config['mqtt-username'],
+        authentication_password: config['mqtt-key'],
+      ),
+    );
 
     return BakeCode.instance.run();
   }

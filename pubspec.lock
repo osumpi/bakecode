@@ -331,7 +331,7 @@ packages:
     source: hosted
     version: "0.9.7"
   mqtt_client:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: mqtt_client
       url: "https://pub.dartlang.org"
