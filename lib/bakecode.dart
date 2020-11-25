@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bsi_dart/bsi_dart.dart';
 
 class BakeCode extends Service {
@@ -13,7 +15,14 @@ class BakeCode extends Service {
   Future run() async {
     print('$reference is running...');
 
-    onReceive.listen(print);
+    onReceive.listen((m) {
+      try {
+        var hwmap = jsonDecode(m.message);
+        print(hwmap);
+      } catch (e) {
+        print(e);
+      }
+    });
     notify(reference, message: 'online');
     broadcast('online');
   }
