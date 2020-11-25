@@ -101,7 +101,14 @@
       <pre class="language-dart"><code class="language-dart">Future run() async {
   print(&#39;$reference is running...&#39;);
 
-  onReceive.listen(print);
+  onReceive.listen((m) {
+    try {
+      var hwmap = jsonDecode(m.message);
+      print(hwmap);
+    } catch (e) {
+      print(e);
+    }
+  });
   notify(reference, message: &#39;online&#39;);
   broadcast(&#39;online&#39;);
 }</code></pre>
