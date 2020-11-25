@@ -95,14 +95,6 @@
           The hash code for this object. <a href="https://api.dart.dev/stable/2.10.4/dart-core/Object/hashCode.html">[...]</a>
                   <div class="features">read-only, inherited</div>
 </dd>
-        <dt id="name" class="property inherited">
-          <span class="name"><a href="../bakecode/BakeCode/name.html">name</a></span>
-          <span class="signature">&#8594; <a href="https://api.dart.dev/stable/2.10.4/dart-core/String-class.html">String</a></span>         
-        </dt>
-        <dd class="inherited">
-           
-                  <div class="features">read-only, inherited</div>
-</dd>
         <dt id="onReceive" class="property inherited">
           <span class="name"><a href="../bakecode/BakeCode/onReceive.html">onReceive</a></span>
           <span class="signature">&#8594; <a href="https://api.dart.dev/stable/2.10.4/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter">ServiceMessage</span>&gt;</span></span>         
@@ -132,8 +124,8 @@
           <span class="signature">&#8594; ServiceReference</span>         
         </dt>
         <dd class="inherited">
-           
-                  <div class="features">@<a href="https://pub.dev/documentation/meta/1.2.4/meta/nonVirtual-constant.html">nonVirtual</a>, read-only, inherited</div>
+          <code>ServiceReference</code> of the state of this service. <a href="../bakecode/BakeCode/state.html">[...]</a>
+                  <div class="features">read-only, inherited</div>
 </dd>
       </dl>
     </section>
@@ -165,9 +157,17 @@
           </span>
                   </dt>
         <dd class="inherited">
-          Publishes a <code>message</code> on <code>topic</code>.
-By default <code>topic</code> is <code>path</code>. 
-                  <div class="features">@<a href="https://pub.dev/documentation/meta/1.2.4/meta/mustCallSuper-constant.html">mustCallSuper</a>, inherited</div>
+          Sends the <code>message</code> <code>to</code> the service. 
+                  <div class="features">@<a href="https://pub.dev/documentation/meta/1.2.4/meta/nonVirtual-constant.html">nonVirtual</a>, inherited</div>
+</dd>
+        <dt id="notifyAll" class="callable inherited">
+          <span class="name"><a href="../bakecode/BakeCode/notifyAll.html">notifyAll</a></span><span class="signature">(<wbr><span class="parameter" id="notifyAll-param-to"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.10.4/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter">ServiceReference</span>&gt;</span></span> <span class="parameter-name">to</span>, </span><span class="parameter" id="notifyAll-param-message">{<span class="type-annotation"><a href="https://api.dart.dev/stable/2.10.4/dart-core/String-class.html">String</a></span> <span class="parameter-name">message</span>}</span>)
+            <span class="returntype parameter">&#8594; void</span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          Sends the <code>message</code> to every service specified in <code>to</code>. 
+                  <div class="features">inherited</div>
 </dd>
         <dt id="run" class="callable">
           <span class="name"><a href="../bakecode/BakeCode/run.html">run</a></span><span class="signature">(<wbr>)
@@ -185,15 +185,6 @@ By default <code>topic</code> is <code>path</code>.
                   </dt>
         <dd class="inherited">
           Returns a string representation of this object. 
-                  <div class="features">inherited</div>
-</dd>
-        <dt id="updateState" class="callable inherited">
-          <span class="name"><a href="../bakecode/BakeCode/updateState.html">updateState</a></span><span class="signature">(<wbr><span class="parameter" id="updateState-param-stateName"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.10.4/dart-core/String-class.html">String</a></span> <span class="parameter-name">stateName</span>, </span><span class="parameter" id="updateState-param-value"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.10.4/dart-core/String-class.html">String</a></span> <span class="parameter-name">value</span></span>)
-            <span class="returntype parameter">&#8594; void</span>
-          </span>
-                  </dt>
-        <dd class="inherited">
-           
                   <div class="features">inherited</div>
 </dd>
       </dl>
@@ -243,7 +234,6 @@ By default <code>topic</code> is <code>path</code>.
         <a href="../bakecode/BakeCode-class.html#instance-properties">Properties</a>
       </li>
       <li class="inherited"><a href="https://api.dart.dev/stable/2.10.4/dart-core/Object/hashCode.html">hashCode</a></li>
-      <li class="inherited"><a href="../bakecode/BakeCode/name.html">name</a></li>
       <li class="inherited"><a href="../bakecode/BakeCode/onReceive.html">onReceive</a></li>
       <li><a href="../bakecode/BakeCode/reference.html">reference</a></li>
       <li class="inherited"><a href="https://api.dart.dev/stable/2.10.4/dart-core/Object/runtimeType.html">runtimeType</a></li>
@@ -253,9 +243,9 @@ By default <code>topic</code> is <code>path</code>.
       <li class="inherited"><a href="../bakecode/BakeCode/broadcast.html">broadcast</a></li>
       <li class="inherited"><a href="https://api.dart.dev/stable/2.10.4/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
       <li class="inherited"><a href="../bakecode/BakeCode/notify.html">notify</a></li>
+      <li class="inherited"><a href="../bakecode/BakeCode/notifyAll.html">notifyAll</a></li>
       <li><a href="../bakecode/BakeCode/run.html">run</a></li>
       <li class="inherited"><a href="https://api.dart.dev/stable/2.10.4/dart-core/Object/toString.html">toString</a></li>
-      <li class="inherited"><a href="../bakecode/BakeCode/updateState.html">updateState</a></li>
     
       <li class="section-title inherited"><a href="../bakecode/BakeCode-class.html#operators">Operators</a></li>
       <li class="inherited"><a href="https://api.dart.dev/stable/2.10.4/dart-core/Object/operator_equals.html">operator ==</a></li>
