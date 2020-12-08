@@ -2,5 +2,5 @@
 	path = bakecode-jobs
 	url = git@github.com:crysalisdevs/bakecode-jobs.git
 [submodule "bsi-dart"]
-	path = bsi-dart
+	path = bsi
 	url = git@github.com:crysalisdevs/bsi-dart.git

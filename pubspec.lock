@@ -14,11 +14,11 @@ packages:
       path: bakecode-jobs
       relative: true
     source: path
-    version: "0.0.0"
+    version: "0.1.0-alpha"
   bsi:
     dependency: "direct main"
     description:
-      path: bsi-dart
+      path: bsi
       relative: true
     source: path
     version: "0.0.2-alpha"

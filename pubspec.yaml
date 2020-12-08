@@ -10,7 +10,7 @@ dependencies:
   bakecode_jobs:
     path: bakecode-jobs/
   bsi:
-    path: bsi-dart/
+    path: bsi/
   args: ^1.6.0
   meta:
   logger:
