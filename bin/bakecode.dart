@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:bakecode/bakecode.dart';
 import 'package:bakecode/logger.dart';
-import 'package:bsi_dart/bsi_dart.dart';
+import 'package:bsi/bsi.dart';
 
 Future<void> main(List<String> args) async {
   // Check existence of LICENSE.

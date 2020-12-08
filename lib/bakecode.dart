@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:bsi_dart/bsi_dart.dart';
+import 'package:bsi/bsi.dart';
 
 class BakeCode extends Service {
   BakeCode._();
@@ -23,7 +23,6 @@ class BakeCode extends Service {
         print(e);
       }
     });
-    notify(reference, message: 'online');
-    broadcast('online');
+    send(CustomMessage(reference, [reference], 'online'));
   }
 }

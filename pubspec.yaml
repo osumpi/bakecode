@@ -9,18 +9,9 @@ environment:
 dependencies: 
   bakecode_jobs:
     path: bakecode-jobs/
-  bsi_dart:
+  bsi:
     path: bsi-dart/
   args: ^1.6.0
   meta:
   logger:
-  get_it:
   equatable:
-  event_bus:
-  json_serializable:
-  
-
-dev_dependencies:
-  build_test:
-  build_runner:
-  pedantic: ^1.9.0
