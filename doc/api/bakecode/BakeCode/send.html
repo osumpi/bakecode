@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the run method from the BakeCode class, for the Dart programming language.">
-  <title>run method - BakeCode class - bakecode library - Dart API</title>
+  <meta name="description" content="API docs for the send method from the BakeCode class, for the Dart programming language.">
+  <title>send method - BakeCode class - bakecode library - Dart API</title>
 
   
   <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
@@ -27,9 +27,9 @@
     <li><a href="../../index.html">bakecode</a></li>
     <li><a href="../../bakecode/bakecode-library.html">bakecode</a></li>
     <li><a href="../../bakecode/BakeCode-class.html">BakeCode</a></li>
-    <li class="self-crumb">run method</li>
+    <li class="self-crumb">send method</li>
   </ol>
-  <div class="self-name">run</div>
+  <div class="self-name">send</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -48,7 +48,7 @@
       <li><a href="../../index.html">bakecode</a></li>
       <li><a href="../../bakecode/bakecode-library.html">bakecode</a></li>
       <li><a href="../../bakecode/BakeCode-class.html">BakeCode</a></li>
-      <li class="self-crumb">run method</li>
+      <li class="self-crumb">send method</li>
     </ol>
     
     <h5>BakeCode class</h5>
@@ -85,30 +85,29 @@
   </div><!--/.sidebar-offcanvas-->
 
   <div id="dartdoc-main-content" class="col-xs-12 col-sm-9 col-md-8 main-content">
-      <div><h1><span class="kind-method">run</span> method </h1></div>
+      <div><h1><span class="kind-method">send</span> method </h1></div>
 
     <section class="multi-line-signature">
-      <span class="returntype"><a href="https://api.dart.dev/stable/2.10.4/dart-async/Future-class.html">Future</a></span>
-            <span class="name ">run</span>
-(<wbr>)
-      
+      <div>
+        <ol class="annotation-list">
+          <li>@<a href="https://pub.dev/documentation/meta/1.2.4/meta/nonVirtual-constant.html">nonVirtual</a></li>
+        </ol>
+      </div>
+      <span class="returntype">void</span>
+            <span class="name ">send</span>
+(<wbr><ol class="parameter-list"><li><span class="parameter" id="send-param-message"><span class="type-annotation">ServiceMessage</span> <span class="parameter-name">message</span></span></li>
+</ol>)
+      <div class="features">@<a href="https://pub.dev/documentation/meta/1.2.4/meta/nonVirtual-constant.html">nonVirtual</a>, inherited</div>
+    </section>
+    <section class="desc markdown">
+      <p>Sends the message to the destinations specified in the message.</p>
+<p>Sends by adding the message to the <code>BSI.instance</code>'s outbox.</p>
     </section>
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span></h2>
-      <pre class="language-dart"><code class="language-dart">Future run() async {
-  print(&#39;$reference is running...&#39;);
-
-  onReceive.listen((m) {
-    try {
-      var hwmap = jsonDecode(m.message);
-      print(hwmap);
-    } catch (e) {
-      print(e);
-    }
-  });
-  send(CustomMessage(reference, [reference], &#39;online&#39;));
-}</code></pre>
+      <pre class="language-dart"><code class="language-dart">@nonVirtual
+void send(ServiceMessage message) =&gt; BSI.instance.outbox.add(message);</code></pre>
     </section>
 
   </div> <!-- /.main-content -->
