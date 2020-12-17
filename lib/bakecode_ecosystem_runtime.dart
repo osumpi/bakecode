@@ -1,8 +1,8 @@
-import 'dart:convert';
-
 import 'package:bsi/bsi.dart';
 
 class BakeCode extends Service {
+  final isOnline = State<bool>('isOnline');
+
   BakeCode._();
 
   static final instance = BakeCode._();
@@ -15,14 +15,12 @@ class BakeCode extends Service {
   Future run() async {
     print('$reference is running...');
 
-    onReceive.listen((m) {
-      try {
-        var hwmap = jsonDecode(m.message);
-        print(hwmap);
-      } catch (e) {
-        print(e);
-      }
-    });
-    send(CustomMessage(reference, [reference], 'online'));
+    onReceive.listen(print);
+
+    set({isOnline: true});
+    set({isOnline: true});
+    set({isOnline: false});
+    set({isOnline: true});
+    set({isOnline: true});
   }
 }

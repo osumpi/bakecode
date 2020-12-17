@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
-import 'package:bakecode/bakecode.dart';
-import 'package:bakecode/logger.dart';
+import 'package:bakecode_ecosystem_runtime/bakecode_ecosystem_runtime.dart';
+import 'package:bakecode_ecosystem_runtime/logger.dart';
 import 'package:bsi/bsi.dart';
 
 Future<void> main(List<String> args) async {
