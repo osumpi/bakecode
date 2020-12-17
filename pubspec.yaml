@@ -1,5 +1,5 @@
-name: bakecode
-description: BakeCode Gateway Service.
+name: bakecode_ecosystem_runtime
+description: BakeCode Ecosystem Runtime
 version: 0.0.1-alpha
 # homepage: https://www.example.com
 
@@ -7,10 +7,10 @@ environment:
   sdk: '>=2.8.1 <3.0.0'
 
 dependencies: 
-  bakecode_jobs:
-    path: bakecode-jobs/
+  bakecode:
+    git: git@github.com:crysalisdevs/bakecode.git
   bsi:
-    path: bsi/
+    git: git@github.com:crysalisdevs/bsi-dart.git
   args: ^1.6.0
   meta:
   logger:

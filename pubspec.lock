@@ -8,19 +8,23 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.6.0"
-  bakecode_jobs:
+  bakecode:
     dependency: "direct main"
     description:
-      path: bakecode-jobs
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: eceaf0a55de34dcb7f13e07f818f222ed8a70f44
+      url: "git@github.com:crysalisdevs/bakecode.git"
+    source: git
     version: "0.1.0-alpha"
   bsi:
     dependency: "direct main"
     description:
-      path: bsi
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "6be4a381c5630215e6ef227f4a4d97f2805773ff"
+      url: "git@github.com:crysalisdevs/bsi-dart.git"
+    source: git
     version: "0.0.2-alpha"
   charcode:
     dependency: transitive
