@@ -18,9 +18,5 @@ class BakeCode extends Service {
     onReceive.listen(print);
 
     set({isOnline: true});
-    set({isOnline: true});
-    set({isOnline: false});
-    set({isOnline: true});
-    set({isOnline: true});
   }
 }
