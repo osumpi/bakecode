@@ -22,9 +22,9 @@ Future<void> main(List<String> args) async {
 BakeCode Ecosystem Kernel. See https://github.com/crysalisdevs/bakecode for more.
 
 Copyright (C) 2020, the BakeCode project authors.
-This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
+This program comes with ABSOLUTELY NO WARRANTY; for details type 'show w'.
 This is free software, and you are welcome to redistribute it
-under certain conditions; type `show c' for details.
+under certain conditions; type 'show c' for details.
     """,
   )
     ..addCommand(ShowCommand())
@@ -84,6 +84,7 @@ PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM
 IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF
 ALL NECESSARY SERVICING, REPAIR OR CORRECTION.""");
 
+    // TODO: conditions to be printed after merging new license.
     if (showConditions) print("""
   """);
   }
@@ -113,14 +114,14 @@ class RunCommand extends Command {
         config = jsonDecode(content);
       } catch (e) {
         print("""
-        Couldn't read `${configFile.absolute.path}`.
+        Couldn't read ${configFile.absolute.path}.
 
         Reason:
         $e
         """);
       }
     } else {
-      log.e("No config file exists at `${configFile.absolute.path}`");
+      log.e("Config file does not exist at ${configFile.absolute.path}");
     }
 
     if (config == null) return;
@@ -199,24 +200,24 @@ class ConfigCommand extends Command {
         config.addAll(jsonDecode(await configFile.readAsString()));
       } catch (e) {
         print("""
-        Failed to load `config.json` properly.
+        Failed to load config.json properly.
 
         Reason: 
         $e
 
         Possible solutions:
         * Make sure only one Yaml document is present.
-        * Try deleting `config.json` and running `bakecode init` to create a fresh one.
+        * Try deleting config.json and running bakecode init to create a fresh one.
         """);
       }
     } else {
-      print("Creating `config.json`...");
+      print("Creating config.json...");
 
       try {
         await configFile.create();
       } on FileSystemException catch (e) {
         print("""
-        Failed to create `config.json`.
+        Failed to create config.json.
 
         Reason: 
         $e
