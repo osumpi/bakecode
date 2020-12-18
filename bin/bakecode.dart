@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -100,10 +101,11 @@ class RunCommand extends Command {
   Run the BakeCode Ecosystem.
   """;
 
-  run() async {
+  @override
+  FutureOr<void> run() async {
     Map config;
 
-    File configFile = File('config.json');
+    final configFile = File('config.json');
 
     if (await configFile?.exists() == true) {
       try {
@@ -124,12 +126,12 @@ class RunCommand extends Command {
     if (config == null) return;
 
     await Mqtt().initialize(
-      using: MqttConnection.from(
-        service: BakeCode.instance.reference,
+      using: BSIConfiguration.from(
+        representingService: BakeCode.instance.reference,
         broker: config['mqtt-broker'],
         port: config['mqtt-port'],
-        authentication_username: config['mqtt-username'],
-        authentication_password: config['mqtt-key'],
+        auth_username: config['mqtt-username'],
+        auth_password: config['mqtt-key'],
       ),
     );
 

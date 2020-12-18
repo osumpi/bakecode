@@ -1,7 +1,7 @@
 import 'package:bsi/bsi.dart';
 
 class BakeCode extends Service {
-  final isOnline = State<bool>('isOnline');
+  final isOnline = State('isOnline');
 
   BakeCode._();
 
