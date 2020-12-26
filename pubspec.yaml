@@ -13,5 +13,5 @@ dependencies:
     git: git@github.com:crysalisdevs/bsi-dart.git
   args: ^1.6.0
   meta:
-  logger:
   equatable:
+  hotreloader: ^2.0.0
