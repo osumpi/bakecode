@@ -4,13 +4,17 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:bakecode_ecosystem_runtime/bakecode_ecosystem_runtime.dart';
-import 'package:bakecode_ecosystem_runtime/logger.dart';
 import 'package:bsi/bsi.dart';
+import 'package:hotreloader/hotreloader.dart';
 
 Future<void> main(List<String> args) async {
+  var reloader = await HotReloader.create(
+    onAfterReload: (ctx) {},
+  );
+
   // Check existence of LICENSE.
   if (await File('LICENSE').exists() == false) {
-    print("LICENSE not found. Won't run.");
+    print("LICENSE not found. Will not run.");
 
     // return 0x01; // TODO: uncomment this
   }
@@ -121,7 +125,7 @@ class RunCommand extends Command {
         """);
       }
     } else {
-      log.e("Config file does not exist at ${configFile.absolute.path}");
+      print("Config file does not exist at ${configFile.absolute.path}");
     }
 
     if (config == null) return;
