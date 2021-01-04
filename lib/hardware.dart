@@ -3,27 +3,27 @@ import 'dart:async';
 import 'package:args/command_runner.dart';
 import 'package:bsi/bsi.dart';
 
-abstract class Hardware extends Service {
+abstract class DeviceType extends Service {
   String get name;
   String get description;
 
   @override
   ServiceReference get reference => Services.Hardwares[name];
 
-  final _instances = <HardwareInstance>[];
+  final _instances = <Device>[];
 
-  Iterable<HardwareInstance> get instances => _instances;
+  Iterable<Device> get instances => _instances;
 
-  HardwareInstance createInstance(String id);
+  Device createInstance(String id);
 }
 
-abstract class HardwareInstance<T extends Hardware> extends Service {
+abstract class Device<T extends DeviceType> extends Service {
   T get hardware => _hardware;
   T _hardware;
 
   final String id;
 
-  HardwareInstance(this.id) {
+  Device(this.id) {
     hardware._instances.add(this);
   }
 
@@ -37,7 +37,7 @@ abstract class HardwareInstance<T extends Hardware> extends Service {
   // TODO: add uuid
 }
 
-class SCARA extends Hardware {
+class SCARA extends DeviceType {
   @override
   String get name => 'Dispenser';
 
@@ -49,7 +49,7 @@ class SCARA extends Hardware {
   _SCARAInstance createInstance(String id) => _SCARAInstance(id);
 }
 
-class _SCARAInstance extends HardwareInstance<SCARA> {
+class _SCARAInstance extends Device<SCARA> {
   final isOnline = State('isOnline');
 
   _SCARAInstance(String id) : super(id) {
