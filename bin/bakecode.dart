@@ -4,23 +4,12 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:bakecode_ecosystem_runtime/bakecode_ecosystem_runtime.dart';
+import 'package:bakecode_ecosystem_runtime/logging.dart';
 import 'package:bsi/bsi.dart';
 import 'package:hotreloader/hotreloader.dart';
 
 Future<void> main(List<String> args) async {
-  var reloader = await HotReloader.create(
-    onAfterReload: (ctx) {},
-  );
-
-  // Check existence of LICENSE.
-  if (await File('LICENSE').exists() == false) {
-    print("LICENSE not found. Will not run.");
-
-    // return 0x01; // TODO: uncomment this
-  }
-  // Check T&C agreement.
-
-  CommandRunner(
+  var runner = CommandRunner(
     'bakecode',
     """
 BakeCode Ecosystem Kernel. See https://github.com/crysalisdevs/bakecode for more.
@@ -30,7 +19,30 @@ This program comes with ABSOLUTELY NO WARRANTY; for details type 'show w'.
 This is free software, and you are welcome to redistribute it
 under certain conditions; type 'show c' for details.
     """,
-  )
+  );
+
+  runner.argParser.addFlag(
+    'version',
+    negatable: false,
+    help: "Print the BakeCode Runtime version.",
+    callback: (wasParsed) {
+      if (wasParsed) {
+        print("BakeCode Runtime version: <version> <channel> on <platform>");
+        // TODO: add version here...
+        exit(0);
+      }
+    },
+  );
+
+  // TODO: Check existence of LICENSE.
+  if (await File('LICENSE').exists() == false) {
+    // print("LICENSE not found. Will not run.");
+
+    // return 0x01; // TODO: uncomment this
+  }
+  // TODO: Check T&C agreement.
+
+  runner
     ..addCommand(ShowCommand())
     ..addCommand(RunCommand())
     ..addCommand(ConfigCommand())
@@ -44,8 +56,7 @@ class ShowCommand extends Command {
 
   @override
   String get description => """
-  Shows information related to BakeCode Ecosystem and the BakeCode Ecosystem Kernel.
-  """;
+Shows information related to BakeCode Ecosystem and the BakeCode Ecosystem Kernel.""";
 
   bool showWarranty = false;
   bool showConditions = false;
@@ -103,8 +114,42 @@ class RunCommand extends Command {
 
   @override
   String get description => """
-  Run the BakeCode Ecosystem.
-  """;
+Run the BakeCode Ecosystem.""";
+
+  DateTime _beforeReloadTime;
+
+  bool _beforeReload(BeforeReloadContext context) {
+    _beforeReloadTime = DateTime.now();
+    return true;
+  }
+
+  void _afterReload(AfterReloadContext context) {
+    var ms = DateTime.now().difference(_beforeReloadTime).inMilliseconds;
+
+    var _nChanges = context.events.map((e) => '$e').toSet().length;
+
+    log('Reloaded $_nChanges files in $ms ms.');
+  }
+
+  RunCommand() {
+    argParser.addFlag(
+      'enable-hot-reload',
+      defaultsTo: false,
+      negatable: false,
+      help: """
+Enables hot-reload functionallity (use only for development purposes).
+If using `dart` command, `--enable-vm-service` should be used.""",
+      callback: (value) async {
+        if (value) {
+          await HotReloader.create(
+            debounceInterval: const Duration(milliseconds: 100),
+            onBeforeReload: _beforeReload,
+            onAfterReload: _afterReload,
+          );
+        }
+      },
+    );
+  }
 
   @override
   FutureOr<void> run() async {
@@ -118,11 +163,8 @@ class RunCommand extends Command {
         config = jsonDecode(content);
       } catch (e) {
         print("""
-        Couldn't read ${configFile.absolute.path}.
-
-        Reason:
-        $e
-        """);
+Couldn't read ${configFile.absolute.path}.
+Reason: $e""");
       }
     } else {
       print("Config file does not exist at ${configFile.absolute.path}");
@@ -150,10 +192,9 @@ class ConfigCommand extends Command {
 
   @override
   String get description => """
-  Configure BakeCode Ecosystem Settings.
+Configure BakeCode Ecosystem Settings.
 
-  To remove a setting, configure it to an empty string.
-  """;
+To remove a setting, configure it to an empty string.""";
 
   final specifiedConfig = <String, dynamic>{};
 
@@ -204,15 +245,12 @@ class ConfigCommand extends Command {
         config.addAll(jsonDecode(await configFile.readAsString()));
       } catch (e) {
         print("""
-        Failed to load config.json properly.
+Failed to load config.json properly.
+Reason: $e
 
-        Reason: 
-        $e
-
-        Possible solutions:
-        * Make sure only one Yaml document is present.
-        * Try deleting config.json and running bakecode init to create a fresh one.
-        """);
+Possible solutions:
+* Make sure only one Yaml document is present.
+* Try deleting config.json and running bakecode init to create a fresh one.""");
       }
     } else {
       print("Creating config.json...");
@@ -221,11 +259,8 @@ class ConfigCommand extends Command {
         await configFile.create();
       } on FileSystemException catch (e) {
         print("""
-        Failed to create config.json.
-
-        Reason: 
-        $e
-        """);
+Failed to create config.json.
+Reason: $e""");
       }
     }
 
@@ -241,10 +276,8 @@ class ConfigCommand extends Command {
         await configFile.writeAsString(encoder.convert(config));
       } catch (e) {
         print("""
-        Failed to write new configurations.
-        
-        Reason:
-        $e""");
+Failed to write new configurations.
+Reason: $e""");
       }
     }
   }
@@ -256,8 +289,10 @@ class InitCommand extends Command {
 
   @override
   String get description => """
-  Initialize a new BakeCode ecosystem.
+Initialize a new BakeCode ecosystem.
+WARN: All previous configuration will be purged.""";
 
-  If previously initialised, all the configuration will be purged. 
-  """;
+  run() {
+    // TODO: init.
+  }
 }
