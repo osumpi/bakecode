@@ -1,3 +1,4 @@
+import 'package:bakecode_ecosystem_runtime/logging.dart';
 import 'package:bsi/bsi.dart';
 import 'dart:developer' as developer;
 
@@ -15,12 +16,14 @@ class BakeCode extends Service {
   @override
   ServiceReference get reference => ServiceReference.root('bakecode');
 
-  Future run() async {
-    print('$reference is running...');
+  void handleEvent(String message) {
+    log('Service \"$reference\" received command: \"$message\"');
+  }
 
-    onReceive.listen((message) {
-      developer.log('$message', name: '$reference');
-    });
+  Future run() async {
+    log('Service \"$reference\" is running.');
+
+    onReceive.listen(handleEvent);
 
     set({isOnline: true});
   }
