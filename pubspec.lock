@@ -29,7 +29,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "1913b44119d1224b00ab5fd8af6cd39da5f12e8f"
+      resolved-ref: "7931f7599b277b3d516ec13521f01bb24c16ce70"
       url: "git@github.com:crysalisdevs/bsi-dart.git"
     source: git
     version: "0.0.2-alpha"
