@@ -7,20 +7,20 @@ packages:
       name: args
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.0"
+    version: "2.0.0"
   async:
     dependency: transitive
     description:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.2"
+    version: "2.5.0"
   bakecode:
     dependency: "direct main"
     description:
       path: "."
       ref: HEAD
-      resolved-ref: eceaf0a55de34dcb7f13e07f818f222ed8a70f44
+      resolved-ref: f6fdccbc928a20ebddaa4b58419609779b125eb8
       url: "git@github.com:crysalisdevs/bakecode.git"
     source: git
     version: "0.1.0-alpha"
@@ -29,121 +29,107 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "7931f7599b277b3d516ec13521f01bb24c16ce70"
+      resolved-ref: b8183ebff4c56f51f2f66a98bd91089ec58f76b7
       url: "git@github.com:crysalisdevs/bsi-dart.git"
     source: git
     version: "0.0.2-alpha"
-  charcode:
-    dependency: transitive
-    description:
-      name: charcode
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.3"
   collection:
     dependency: transitive
     description:
       name: collection
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.14.13"
-  convert:
-    dependency: transitive
-    description:
-      name: convert
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.1"
+    version: "1.15.0"
   crypto:
     dependency: transitive
     description:
       name: crypto
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.5"
+    version: "3.0.0"
   equatable:
     dependency: "direct main"
     description:
       name: equatable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.5"
+    version: "2.0.0"
   event_bus:
     dependency: transitive
     description:
       name: event_bus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.1"
+    version: "2.0.0"
   hotreloader:
     dependency: "direct main"
     description:
       name: hotreloader
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.2"
+    version: "3.0.0"
   logging:
     dependency: transitive
     description:
       name: logging
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.11.4"
+    version: "1.0.1"
   meta:
     dependency: "direct main"
     description:
       name: meta
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.4"
+    version: "1.3.0"
   mqtt_client:
     dependency: transitive
     description:
       name: mqtt_client
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "8.1.0"
+    version: "9.0.0"
   path:
     dependency: transitive
     description:
       name: path
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.7.0"
+    version: "1.8.0"
   pedantic:
     dependency: transitive
     description:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.9.2"
+    version: "1.11.0"
   stream_transform:
     dependency: transitive
     description:
       name: stream_transform
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
+    version: "2.0.0"
   typed_data:
     dependency: transitive
     description:
       name: typed_data
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
+    version: "1.3.0"
   vm_service:
     dependency: transitive
     description:
       name: vm_service
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.5.0"
+    version: "6.2.0"
   watcher:
     dependency: transitive
     description:
       name: watcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.7+15"
+    version: "1.0.0"
 sdks:
-  dart: ">=2.8.1 <3.0.0"
+  dart: ">=2.12.0 <3.0.0"

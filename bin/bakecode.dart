@@ -116,7 +116,7 @@ class RunCommand extends Command {
   String get description => """
 Run the BakeCode Ecosystem.""";
 
-  DateTime _beforeReloadTime;
+  late DateTime _beforeReloadTime;
 
   bool _beforeReload(BeforeReloadContext context) {
     _beforeReloadTime = DateTime.now();
@@ -126,7 +126,7 @@ Run the BakeCode Ecosystem.""";
   void _afterReload(AfterReloadContext context) {
     var ms = DateTime.now().difference(_beforeReloadTime).inMilliseconds;
 
-    var _nChanges = context.events.map((e) => '$e').toSet().length;
+    var _nChanges = context.events!.map((e) => '$e').toSet().length;
 
     log('Reloaded $_nChanges files in $ms ms.');
   }
@@ -153,7 +153,7 @@ If using `dart` command, `--enable-vm-service` should be used.""",
 
   @override
   FutureOr<void> run() async {
-    Map config;
+    Map? config;
 
     final configFile = File('config.json');
 
