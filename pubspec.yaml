@@ -18,3 +18,4 @@ dependencies:
   meta: ^1.3.0
   equatable: ^2.0.0
   hotreloader: ^3.0.0
+  cli_repl: ^0.2.2
