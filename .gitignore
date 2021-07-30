@@ -8,3 +8,5 @@ build/
 *.backup
 *.exe
 config.json
+
+*.g.*
