@@ -3,36 +3,22 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
-import 'package:bakecode_ecosystem_runtime/bakecode_ecosystem_runtime.dart';
-import 'package:bakecode_ecosystem_runtime/logging.dart';
-import 'package:bsi/bsi.dart';
+import 'package:bakecode_engine/bakecode.dart' as bakecode;
+import 'package:core/core.dart';
 import 'package:hotreloader/hotreloader.dart';
 
 Future<void> main(List<String> args) async {
-  var runner = CommandRunner(
-    'bakecode',
-    """
-BakeCode Ecosystem Kernel. See https://github.com/crysalisdevs/bakecode for more.
+  final runner = CommandRunner('bakecode', bakecode.description);
 
-Copyright (C) 2020, the BakeCode project authors.
-This program comes with ABSOLUTELY NO WARRANTY; for details type 'show w'.
-This is free software, and you are welcome to redistribute it
-under certain conditions; type 'show c' for details.
-    """,
-  );
-
-  runner.argParser.addFlag(
-    'version',
-    negatable: false,
-    help: "Print the BakeCode Runtime version.",
-    callback: (wasParsed) {
-      if (wasParsed) {
-        print("BakeCode Runtime version: <version> <channel> on <platform>");
-        // TODO: add version here...
-        exit(0);
-      }
-    },
-  );
+  runner.argParser
+    ..addFlag(
+      'version',
+      negatable: false,
+      help: 'Prints the bakecode engine version.',
+      callback: (wasParsed) {
+        if (wasParsed) print('bakecode-engine <version>');
+      },
+    );
 
   // TODO: Check existence of LICENSE.
   if (await File('LICENSE').exists() == false) {
@@ -42,257 +28,15 @@ under certain conditions; type 'show c' for details.
   }
   // TODO: Check T&C agreement.
 
-  runner
-    ..addCommand(ShowCommand())
-    ..addCommand(RunCommand())
-    ..addCommand(ConfigCommand())
-    ..addCommand(InitCommand())
-    ..run(args);
-}
+  const config = BSIConfiguration(
+    clientIdentifier: 'bakecode-engine',
+    server: '192.168.43.20',
+    port: 1883,
+    username: 'user',
+    password: 'iL0v3MoonGaYoung',
+  );
 
-class ShowCommand extends Command {
-  @override
-  String get name => 'show';
+  print(await BSI.instance.initialize(config: config));
 
-  @override
-  String get description => """
-Shows information related to BakeCode Ecosystem and the BakeCode Ecosystem Kernel.""";
-
-  bool showWarranty = false;
-  bool showConditions = false;
-  bool showLicense = false;
-
-  ShowCommand() {
-    argParser.addFlag(
-      'warranty',
-      abbr: 'w',
-      help:
-          "Shows the warranty statement of the BakeCode project as stated in the LICENSE.",
-      callback: (value) => showWarranty = value ?? false,
-    );
-
-    argParser.addFlag(
-      'conditions',
-      abbr: 'c',
-      help:
-          "Shows the conditions for redistribution of the BakeCode project as stated in the LICENSE.",
-      callback: (value) => showConditions = value ?? false,
-    );
-
-    argParser.addFlag(
-      'license',
-      help: "Shows the LICENSE.",
-      callback: (value) => showLicense = value ?? false,
-    );
-  }
-
-  run() {
-    if (showWarranty) print("""
-  15. Disclaimer of Warranty.
-
-  THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY
-APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT
-HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY
-OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,
-THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM
-IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF
-ALL NECESSARY SERVICING, REPAIR OR CORRECTION.""");
-
-    // TODO: conditions to be printed after merging new license.
-    if (showConditions) print("""
-  """);
-  }
-}
-
-class RunCommand extends Command {
-  @override
-  String get name => 'run';
-
-  @override
-  List<String> get aliases => ['start', 'launch'];
-
-  @override
-  String get description => """
-Run the BakeCode Ecosystem.""";
-
-  late DateTime _beforeReloadTime;
-
-  bool _beforeReload(BeforeReloadContext context) {
-    _beforeReloadTime = DateTime.now();
-    return true;
-  }
-
-  void _afterReload(AfterReloadContext context) {
-    var ms = DateTime.now().difference(_beforeReloadTime).inMilliseconds;
-
-    var _nChanges = context.events!.map((e) => '$e').toSet().length;
-
-    log('Reloaded $_nChanges files in $ms ms.');
-  }
-
-  RunCommand() {
-    argParser.addFlag(
-      'enable-hot-reload',
-      defaultsTo: false,
-      negatable: false,
-      help: """
-Enables hot-reload functionallity (use only for development purposes).
-If using `dart` command, `--enable-vm-service` should be used.""",
-      callback: (value) async {
-        if (value) {
-          await HotReloader.create(
-            debounceInterval: const Duration(milliseconds: 100),
-            onBeforeReload: _beforeReload,
-            onAfterReload: _afterReload,
-          );
-        }
-      },
-    );
-  }
-
-  @override
-  FutureOr<void> run() async {
-    Map? config;
-
-    final configFile = File('config.json');
-
-    if (await configFile?.exists() == true) {
-      try {
-        var content = await configFile.readAsString();
-        config = jsonDecode(content);
-      } catch (e) {
-        print("""
-Couldn't read ${configFile.absolute.path}.
-Reason: $e""");
-      }
-    } else {
-      print("Config file does not exist at ${configFile.absolute.path}");
-    }
-
-    if (config == null) return;
-
-    await Mqtt().initialize(
-      using: BSIConfiguration.from(
-        representingService: BakeCode.instance.reference,
-        broker: config['mqtt-broker'],
-        port: config['mqtt-port'],
-        auth_username: config['mqtt-username'],
-        auth_password: config['mqtt-key'],
-      ),
-    );
-
-    return BakeCode.instance.run();
-  }
-}
-
-class ConfigCommand extends Command {
-  @override
-  String get name => 'config';
-
-  @override
-  String get description => """
-Configure BakeCode Ecosystem Settings.
-
-To remove a setting, configure it to an empty string.""";
-
-  final specifiedConfig = <String, dynamic>{};
-
-  bool showConfig = false;
-
-  ConfigCommand() {
-    argParser.addFlag(
-      'show',
-      help: "Shows the configurations",
-      callback: (value) => showConfig = value,
-    );
-
-    argParser.addOption(
-      'mqtt-broker',
-      help: "The address of MQTT broker.",
-      valueHelp: 'address',
-      callback: (value) => specifiedConfig['mqtt-broker'] = value,
-    );
-
-    argParser.addOption(
-      'mqtt-port',
-      help: "The port number at which MQTT broker instance is running.",
-      valueHelp: 'port number',
-      callback: (value) =>
-          specifiedConfig['mqtt-port'] = int.tryParse(value ?? ''),
-    );
-
-    argParser.addOption(
-      'mqtt-username',
-      help: "The username to be used to authenticate w/ the MQTT broker.",
-      callback: (value) => specifiedConfig['mqtt-username'] = value,
-    );
-
-    argParser.addOption(
-      'mqtt-key',
-      help: "The password/key to be to authenticate w/ the MQTT broker.",
-      callback: (value) => specifiedConfig['mqtt-key'] = value,
-    );
-  }
-
-  run() async {
-    Map config = {};
-
-    File configFile = File('config.json');
-
-    if (await configFile?.exists() == true) {
-      try {
-        config.addAll(jsonDecode(await configFile.readAsString()));
-      } catch (e) {
-        print("""
-Failed to load config.json properly.
-Reason: $e
-
-Possible solutions:
-* Make sure only one Yaml document is present.
-* Try deleting config.json and running bakecode init to create a fresh one.""");
-      }
-    } else {
-      print("Creating config.json...");
-
-      try {
-        await configFile.create();
-      } on FileSystemException catch (e) {
-        print("""
-Failed to create config.json.
-Reason: $e""");
-      }
-    }
-
-    if (config == null) return;
-
-    if (specifiedConfig.keys.isEmpty == false) {
-      specifiedConfig.removeWhere((key, value) => value == null);
-
-      config.addAll(specifiedConfig);
-
-      var encoder = JsonEncoder.withIndent('    ');
-      try {
-        await configFile.writeAsString(encoder.convert(config));
-      } catch (e) {
-        print("""
-Failed to write new configurations.
-Reason: $e""");
-      }
-    }
-  }
-}
-
-class InitCommand extends Command {
-  @override
-  String get name => 'init';
-
-  @override
-  String get description => """
-Initialize a new BakeCode ecosystem.
-WARN: All previous configuration will be purged.""";
-
-  run() {
-    // TODO: init.
-  }
+  final ecosystem = await bakecode.Ecosystem.loadFrom();
 }

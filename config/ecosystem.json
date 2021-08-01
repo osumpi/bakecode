@@ -1,0 +1,38 @@
+{
+  "root": {
+    "name": "bakecode",
+    "nodes": [
+      {
+        "name": "kitchen",
+        "nodes": [
+          {
+            "name": "storage",
+            "nodes": [
+              {
+                "name": "icy-resurrection",
+                "nodes": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "dine-in",
+        "nodes": [
+          {
+            "name": "family-dine-in",
+            "nodes": []
+          },
+          {
+            "name": "open-dine-in",
+            "nodes": []
+          }
+        ]
+      },
+      {
+        "name": "dine-out",
+        "nodes": []
+      }
+    ]
+  }
+}

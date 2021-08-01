@@ -4,7 +4,10 @@
 MQTT:
 
     # The MQTT broker's address
-    # Example: "192.168.0.3", "localhost"
+    # Example: "192.168.0.3"
+    #
+    # Defaults to `localhost`.
+    # 
     broker: '192.168.0.2'
 
     # MQTT broker's listening port
@@ -49,6 +52,3 @@ BSI:
     # Expected: bool
     # Default: disabled/false
     drain outbox on reconnect: false
-
-Flows:
-    node is one time run: false
