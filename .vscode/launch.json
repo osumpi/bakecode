@@ -10,7 +10,8 @@
             "program": "bin/bakecode.dart",
             "type": "dart",
             "args": [
-                "run", "--enable-hot-reload",
+                "run",
+                "--enable-hot-reload",
             ],
         }
     ]

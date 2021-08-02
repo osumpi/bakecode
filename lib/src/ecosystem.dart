@@ -1,69 +1,21 @@
 part of bakecode.engine;
 
-@JsonSerializable(
-  checked: true,
-  disallowUnrecognizedKeys: true,
-)
+///
+@JsonSerializable(checked: true, disallowUnrecognizedKeys: true)
 class Ecosystem {
-  @JsonKey(
-    fromJson: _$SerializableServiceFromJson,
-    toJson: _$SerializableServiceToJson,
-  )
-  final _SerializableService root;
+  @JsonKey(fromJson: _$ServiceFromJson, toJson: _$ServiceToJson)
+  final _Service root;
 
-  Ecosystem({
-    required this.root,
-  });
+  @JsonKey(ignore: true)
+  File? source;
 
-  factory Ecosystem.dummy() {
-    return Ecosystem(
-      root: _SerializableService(
-        name: 'bakecode',
-        nodes: [
-          _SerializableService(
-            name: 'kitchen',
-            nodes: [
-              _SerializableService(
-                name: 'storage',
-                nodes: [
-                  _SerializableService(
-                    name: 'icy-resurrection',
-                    nodes: [],
-                  ),
-                ],
-              ),
-            ],
-          ),
-          _SerializableService(
-            name: 'dine-in',
-            nodes: [
-              _SerializableService(
-                name: 'family-dine-in',
-                nodes: [],
-              ),
-              _SerializableService(
-                name: 'open-dine-in',
-                nodes: [],
-              ),
-            ],
-          ),
-          _SerializableService(
-            name: 'dine-out',
-            nodes: [],
-          ),
-        ],
-      ),
-    );
-  }
+  Ecosystem({required this.root});
 
-  factory Ecosystem.fromJson(Map<String, dynamic> json) =>
-      _$EcosystemFromJson(json);
-
-  static Future<Ecosystem> loadFrom([File? file]) async {
-    file ??= File('config/ecosystem.json');
+  static Future<Ecosystem> loadFrom([String path = 'config/ecosystem.json']) async {
+    final file = File(path);
 
     if (!await file.exists()) {
-      throw Exception('Unable to open file: `$file`');
+      throw Exception('`$file` does not exist.');
     }
 
     final json = jsonDecode(await file.readAsString());
@@ -72,22 +24,21 @@ class Ecosystem {
       throw FormatException('Invalid format.', json);
     }
 
-    return Ecosystem.fromJson(json);
+    return _$EcosystemFromJson(json)..source = file;
   }
+
+  static Future<void> saveTo([File? file]) async {}
 
   Map<String, dynamic> toJson() => _$EcosystemToJson(this);
 }
 
-@JsonSerializable(
-  checked: true,
-  disallowUnrecognizedKeys: true,
-)
-class _SerializableService {
+@JsonSerializable(checked: true, disallowUnrecognizedKeys: true)
+class _Service {
   final String name;
 
-  final List<_SerializableService> nodes;
+  final List<_Service> nodes;
 
-  _SerializableService({
+  _Service({
     required this.name,
     required this.nodes,
   }) {
@@ -96,10 +47,9 @@ class _SerializableService {
     }
   }
 
-  factory _SerializableService.fromJson(Map<String, dynamic> map) =>
-      _$SerializableServiceFromJson(map);
+  factory _Service.fromJson(Map<String, dynamic> map) => _$ServiceFromJson(map);
 
-  Map<String, dynamic> toJson() => _$SerializableServiceToJson(this);
+  Map<String, dynamic> toJson() => _$ServiceToJson(this);
 
   @override
   String toString() => name;

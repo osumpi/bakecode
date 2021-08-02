@@ -1,24 +1,17 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:bakecode_engine/bakecode.dart' as bakecode;
 import 'package:core/core.dart';
-import 'package:hotreloader/hotreloader.dart';
+import 'package:pubspec_parse/pubspec_parse.dart';
 
 Future<void> main(List<String> args) async {
   final runner = CommandRunner('bakecode', bakecode.description);
 
-  runner.argParser
-    ..addFlag(
-      'version',
-      negatable: false,
-      help: 'Prints the bakecode engine version.',
-      callback: (wasParsed) {
-        if (wasParsed) print('bakecode-engine <version>');
-      },
-    );
+  runner.argParser..addFlag('version', negatable: false, help: 'Prints the bakecode engine version.', callback: _handleVersionCallback);
+
+  runner.parse(args);
 
   // TODO: Check existence of LICENSE.
   if (await File('LICENSE').exists() == false) {
@@ -36,7 +29,23 @@ Future<void> main(List<String> args) async {
     password: 'iL0v3MoonGaYoung',
   );
 
-  print(await BSI.instance.initialize(config: config));
+  await BSI.instance.initialize(config: config);
 
   final ecosystem = await bakecode.Ecosystem.loadFrom();
+}
+
+void _handleVersionCallback(bool wasParsed) {
+  if (wasParsed) {
+    final file = File('pubspec.yaml');
+
+    if (!file.existsSync()) {
+      stderr.writeln("Couldn't retrieve $file");
+      exit(0);
+    }
+
+    final pubspec = Pubspec.parse(file.readAsStringSync());
+
+    stdout.writeln('${pubspec.name} ${pubspec.version}');
+    exit(0);
+  }
 }
