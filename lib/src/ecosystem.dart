@@ -3,7 +3,7 @@ part of bakecode.engine;
 class Ecosystem {
   final Map map;
 
-  final String source;
+  final File source;
 
   Ecosystem({required this.source, required this.map});
 
@@ -30,12 +30,16 @@ Do you wish to write an example ecosystem? [Y/n]  """);
       throw FormatException('Invalid format.', json);
     }
 
-    return Ecosystem(map: json, source: source);
+    return Ecosystem(map: json, source: File(source));
   }
+
+  Future<File> saveToFile([File? file]) => (file ?? source).writeAsString(jsonEncoder.convert(this));
+
+  Map toJson() => map;
 
   factory Ecosystem.exampleEcosystem() {
     return Ecosystem(
-      source: 'config/ecosystem.json',
+      source: File('config/ecosystem.json'),
       map: {
         "bakecode": {
           "kitchen": {
@@ -52,8 +56,4 @@ Do you wish to write an example ecosystem? [Y/n]  """);
       },
     );
   }
-
-  Future<void> saveTo([File? file]) async {}
-
-  Map toJson() => map;
 }
