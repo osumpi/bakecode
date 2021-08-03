@@ -3,16 +3,25 @@ part of bakecode.engine;
 class Ecosystem {
   final Map map;
 
-  @JsonKey(ignore: true)
-  File? source;
+  final String source;
 
-  Ecosystem({required this.map});
+  Ecosystem({required this.source, required this.map});
 
-  static Future<Ecosystem> loadFrom([String path = 'config/ecosystem.json']) async {
-    final file = File(path);
+  static const jsonEncoder = JsonEncoder.withIndent('  ');
+
+  static Future<Ecosystem> loadFrom([String source = 'config/ecosystem.json']) async {
+    final file = File(source);
 
     if (!await file.exists()) {
-      throw Exception('$file does not exist.');
+      stdout.write("""
+Ecosystem configuration does not exist at `$source`.
+Do you wish to write an example ecosystem? [Y/n]  """);
+
+      var input = stdin.readLineSync()?.substring(0, 1).toLowerCase() ?? '';
+
+      if (input == 'y') {
+        await file.writeAsString(jsonEncoder.convert(Ecosystem.exampleEcosystem()));
+      }
     }
 
     final json = jsonDecode(await file.readAsString());
@@ -21,33 +30,30 @@ class Ecosystem {
       throw FormatException('Invalid format.', json);
     }
 
-    return Ecosystem(map: json)..source = file;
+    return Ecosystem(map: json, source: source);
   }
 
-  static Future<void> saveTo([File? file]) async {}
+  factory Ecosystem.exampleEcosystem() {
+    return Ecosystem(
+      source: 'config/ecosystem.json',
+      map: {
+        "bakecode": {
+          "kitchen": {
+            "storage": {
+              "icy-resurrection": {},
+            }
+          },
+          "dine-in": {
+            "family-dine-in": {},
+            "open-dine-in": {},
+          },
+          "dine-out": {},
+        }
+      },
+    );
+  }
+
+  Future<void> saveTo([File? file]) async {}
 
   Map toJson() => map;
 }
-
-// @JsonSerializable(checked: true, disallowUnrecognizedKeys: true)
-// class _Service {
-//   final String name;
-
-//   final List<_Service> nodes;
-
-//   _Service({
-//     required this.name,
-//     required this.nodes,
-//   }) {
-//     if (name.isEmpty) {
-//       throw ArgumentError.value(name, 'name', 'Cannot be empty.');
-//     }
-//   }
-
-//   factory _Service.fromJson(Map<String, dynamic> map) => _$ServiceFromJson(map);
-
-//   Map<String, dynamic> toJson() => _$ServiceToJson(this);
-
-//   @override
-//   String toString() => name;
-// }
