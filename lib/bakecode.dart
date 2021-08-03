@@ -9,8 +9,6 @@ import 'package:json_annotation/json_annotation.dart';
 part 'src/ecosystem.dart';
 part 'src/engine.dart';
 
-part 'bakecode.g.dart';
-
 const description = """
 BakeCode Ecosystem Kernel. See https://github.com/crysalisdevs/bakecode for more.
 

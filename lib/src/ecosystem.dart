@@ -1,56 +1,53 @@
 part of bakecode.engine;
 
-///
-@JsonSerializable(checked: true, disallowUnrecognizedKeys: true)
 class Ecosystem {
-  @JsonKey(fromJson: _$ServiceFromJson, toJson: _$ServiceToJson)
-  final _Service root;
+  final Map map;
 
   @JsonKey(ignore: true)
   File? source;
 
-  Ecosystem({required this.root});
+  Ecosystem({required this.map});
 
   static Future<Ecosystem> loadFrom([String path = 'config/ecosystem.json']) async {
     final file = File(path);
 
     if (!await file.exists()) {
-      throw Exception('`$file` does not exist.');
+      throw Exception('$file does not exist.');
     }
 
     final json = jsonDecode(await file.readAsString());
 
-    if (json is! Map<String, dynamic>) {
+    if (json is! Map) {
       throw FormatException('Invalid format.', json);
     }
 
-    return _$EcosystemFromJson(json)..source = file;
+    return Ecosystem(map: json)..source = file;
   }
 
   static Future<void> saveTo([File? file]) async {}
 
-  Map<String, dynamic> toJson() => _$EcosystemToJson(this);
+  Map toJson() => map;
 }
 
-@JsonSerializable(checked: true, disallowUnrecognizedKeys: true)
-class _Service {
-  final String name;
+// @JsonSerializable(checked: true, disallowUnrecognizedKeys: true)
+// class _Service {
+//   final String name;
 
-  final List<_Service> nodes;
+//   final List<_Service> nodes;
 
-  _Service({
-    required this.name,
-    required this.nodes,
-  }) {
-    if (name.isEmpty) {
-      throw ArgumentError.value(name, 'name', 'Cannot be empty.');
-    }
-  }
+//   _Service({
+//     required this.name,
+//     required this.nodes,
+//   }) {
+//     if (name.isEmpty) {
+//       throw ArgumentError.value(name, 'name', 'Cannot be empty.');
+//     }
+//   }
 
-  factory _Service.fromJson(Map<String, dynamic> map) => _$ServiceFromJson(map);
+//   factory _Service.fromJson(Map<String, dynamic> map) => _$ServiceFromJson(map);
 
-  Map<String, dynamic> toJson() => _$ServiceToJson(this);
+//   Map<String, dynamic> toJson() => _$ServiceToJson(this);
 
-  @override
-  String toString() => name;
-}
+//   @override
+//   String toString() => name;
+// }
