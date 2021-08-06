@@ -9,7 +9,7 @@ class Ecosystem {
 
   static const jsonEncoder = JsonEncoder.withIndent('  ');
 
-  static Future<Ecosystem> loadFrom([String source = 'config/ecosystem.json']) async {
+  static Future<Ecosystem> loadFromFile([String source = 'config/ecosystem.json']) async {
     final file = File(source);
 
     if (!await file.exists()) {
@@ -21,6 +21,8 @@ Do you wish to write an example ecosystem? [Y/n]  """);
 
       if (input == 'y') {
         await file.writeAsString(jsonEncoder.convert(Ecosystem.exampleEcosystem()));
+      } else {
+        exit(0);
       }
     }
 

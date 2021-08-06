@@ -8,10 +8,12 @@
             "name": "bakecode",
             "request": "launch",
             "program": "bin/bakecode.dart",
+            "env": {
+                "BAKECODE_HOME": "${workspaceFolder}",
+            },
             "type": "dart",
             "args": [
-                "run",
-                "--enable-hot-reload",
+                "shell",
             ],
         }
     ]
