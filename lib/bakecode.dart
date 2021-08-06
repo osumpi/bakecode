@@ -4,13 +4,17 @@ import 'dart:convert';
 import 'dart:developer' as developer;
 import 'dart:io';
 
-import 'package:json_annotation/json_annotation.dart';
+import 'package:core/core.dart';
+import 'package:pubspec_parse/pubspec_parse.dart';
 
 part 'src/ecosystem.dart';
 part 'src/engine.dart';
 
+late final properties = Pubspec.parse(File('pubspec.yaml').readAsStringSync());
+
 const description = """
-BakeCode Ecosystem Kernel. See https://github.com/crysalisdevs/bakecode for more.
+BakeCode Ecosystem Engine.
+See https://github.com/bakecode-devs/bakecode for more.
 
 Copyright (C) 2020, the BakeCode project authors.
 This program comes with ABSOLUTELY NO WARRANTY; for details type 'show w'.
