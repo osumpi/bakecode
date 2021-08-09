@@ -21,6 +21,7 @@ dependencies:
   equatable: ^2.0.0
   hive: ^2.0.4
   pubspec_parse: ^1.0.0
+  uuid: ^3.0.4
   yaml: ^3.1.0
 
 dev_dependencies:
