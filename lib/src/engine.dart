@@ -1,5 +1,17 @@
 part of bakecode.engine;
 
+class RunEngineCommand extends Command {
+  @override
+  String get name => 'run';
+
+  @override
+  String get description =>
+      'Deploys and runs the bakecode engine in the ecosystem';
+
+  @override
+  Future run() => BakeCodeEngine.instance.initialize();
+}
+
 class BakeCodeEngine extends Service {
   @override
   String get name => 'bakecode-engine';
