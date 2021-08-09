@@ -1,6 +1,12 @@
 part of bakecode.engine;
 
-class BakeCodeEngine {
+class BakeCodeEngine extends Service {
+  @override
+  String get name => 'bakecode-engine';
+
+  @override
+  Address get address => Address(name);
+
   /// This class shall not be instantiated more than once.
   BakeCodeEngine._();
 

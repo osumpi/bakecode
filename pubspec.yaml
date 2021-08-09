@@ -1,15 +1,14 @@
 name: bakecode_engine
 
-description: >
-  BakeCode Ecosystem Engine.
-  See https://github.com/bakecode-devs/bakecode for more.
-
-  Copyright (C) 2020, the BakeCode project authors.
-  This program comes with ABSOLUTELY NO WARRANTY.
+description: BakeCode Ecosystem Engine
 
 version: 0.0.1-alpha
 
 publish_to: none
+
+
+repository: https://github.com/bakecode-devs/bakecode-engine
+issue_tracker: https://github.com/bakecode-devs/bakecode-engine/issues
 
 environment:
   sdk: '>=2.13.0 <3.0.0'
@@ -20,7 +19,6 @@ dependencies:
   core:
     git: git@github.com:bakecode-devs/core.git
   equatable: ^2.0.0
-  hotreloader: ^3.0.0
   pubspec_parse: ^1.0.0
 
 dev_dependencies:
