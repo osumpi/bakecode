@@ -24,12 +24,12 @@ class BakeCodeCompatibility {
       _check('git', ['--version'], 'git is not installed. Please install it!');
 
   /// Checks if dart is available in the system.
-  Future<bool> checkDart() async =>
-      _check('dart', ['--version'], 'dart is not installed. Please install it!');
+  Future<bool> checkDart() async => _check(
+      'dart', ['--version'], 'dart is not installed. Please install it!');
 
   /// Checks if curl is available in the system.
-  Future<bool> checkCurl() async =>
-      _check('curl', ['--version'], 'curl is not installed. Please install it!');
+  Future<bool> checkCurl() async => _check(
+      'curl', ['--version'], 'curl is not installed. Please install it!');
 
   Future<bool> init() async {
     return ![

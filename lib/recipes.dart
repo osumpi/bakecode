@@ -7,22 +7,17 @@ import 'package:uuid/uuid.dart';
 import 'package:yaml/yaml.dart';
 import 'package:meta/meta.dart';
 
-@immutable
-
 /// Contains meta information about recipe.
+@immutable
 class RecipeMeta {
   /// Name of the recipe.
   final String name;
-
-  /// Author of the recipe.
-  final String author;
 
   /// Provider from where to download the recipe.
   final Uri provider;
 
   const RecipeMeta({
     required this.name,
-    required this.author,
     required this.provider,
   });
 
@@ -52,7 +47,6 @@ class RecipeMeta {
 
     return RecipeMeta(
       name: name,
-      author: author,
       provider: uri,
     );
   }
@@ -66,11 +60,18 @@ class RecipeMeta {
 
     final args = command.split(' ');
 
-    return RecipeMeta.fromProviderName(
-      name: args[0],
-      author: args[2],
-      providerName: args[4],
-    );
+    try {
+      return RecipeMeta.fromProviderName(
+        name: args[0],
+        author: args[2],
+        providerName: args.contains('from') ? args[4] : 'github',
+      );
+    } catch (e) {
+      throw ArgumentError('''
+Error in parsing yaml command => $command
+Please follow this syntax <recipe_name> by <author> from <provider>
+''');
+    }
   }
 }
 
@@ -78,9 +79,11 @@ class RecipeMeta {
 class Recipes extends Service {
   Recipes._()
       : super(
+          id: _id,
           name: 'Recipe Manager',
-          id: UuidValue('296afb91-547e-45e8-a368-1b61542ad5ce'),
         );
+
+  static final _id = UuidValue('296afb91-547e-45e8-a368-1b61542ad5ce');
 
   Future<bool> get init async => bakeCodeCompatibility.checkGit();
 
@@ -138,6 +141,10 @@ dependencies:
       tempGetName,
     ]);
 
+    // stdout.addStream(process.stdout);
+
+    // stderr.addStream(process.stderr);
+
     if (process.exitCode != 0) {
       log('Oops! Failed to get the receipe. Maybe check the URI?');
       log('Error trace: ${process.stderr}');
@@ -192,5 +199,15 @@ dependencies:
 final recipes = Recipes._();
 
 Future<void> main(List<String> args) async {
-  print(await recipes.init);
+  if (await recipes.init) {
+    // await recipes.make('bakecode-empty', 'Empty recipe');
+
+    await recipes.get(
+      RecipeMeta.fromProviderName(
+        name: 'sample_recipe',
+        author: 'rithviknishad',
+        providerName: 'github',
+      ),
+    );
+  }
 }
