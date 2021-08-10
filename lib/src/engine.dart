@@ -13,14 +13,14 @@ class RunEngineCommand extends Command {
 }
 
 class BakeCodeEngine extends Service {
-  @override
-  String get name => 'bakecode-engine';
-
-  @override
-  Address get address => Address(name);
-
   /// This class shall not be instantiated more than once.
-  BakeCodeEngine._();
+  BakeCodeEngine._()
+      : super(
+          name: 'bakecode-engine',
+          id: uuid,
+        );
+
+  static final uuid = UuidValue('e4baca29-849e-42e7-915d-df33f5a4dfaf');
 
   /// The instance of BakeCode Engine.
   static late final instance = BakeCodeEngine._();
