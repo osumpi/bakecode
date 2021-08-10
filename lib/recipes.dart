@@ -5,16 +5,84 @@ import 'package:bakecode_engine/logging.dart';
 import 'package:core/core.dart';
 import 'package:uuid/uuid.dart';
 import 'package:yaml/yaml.dart';
+import 'package:meta/meta.dart';
+
+@immutable
+
+/// Contains meta information about recipe.
+class RecipeMeta {
+  /// Name of the recipe.
+  final String name;
+
+  /// Author of the recipe.
+  final String author;
+
+  /// Provider from where to download the recipe.
+  final Uri provider;
+
+  const RecipeMeta({
+    required this.name,
+    required this.author,
+    required this.provider,
+  });
+
+  /// Make a receipe meta class from provider name instead of it's direct URI.
+  factory RecipeMeta.fromProviderName({
+    required String name,
+    required String author,
+    required String providerName,
+  }) {
+    late Uri uri;
+
+    switch (providerName) {
+      case 'github':
+        uri = Uri.https('github.com', '$author/$name');
+        break;
+      case 'bitbucket':
+        uri = Uri.https('bitbucket.org', '$author/$name');
+        break;
+      case 'gitlab':
+        uri = Uri.https('gitlab.com', '$author/$name');
+        break;
+      default:
+        // bakecode add recipe choco by someone from https:///somelink.com
+        uri = Uri(scheme: providerName);
+        break;
+    }
+
+    return RecipeMeta(
+      name: name,
+      author: author,
+      provider: uri,
+    );
+  }
+
+  /// Get the [RecipeMeta] from string [command] which looks like this
+  /// ```yaml
+  /// recipe_name by author from provider
+  /// ```
+  factory RecipeMeta.fromString(String command) {
+    // <recipe_name> by <author> from <provider>
+
+    final args = command.split(' ');
+
+    return RecipeMeta.fromProviderName(
+      name: args[0],
+      author: args[2],
+      providerName: args[4],
+    );
+  }
+}
 
 /// Manages recipes in bakecode.
 class Recipes extends Service {
   Recipes._()
       : super(
-          id: UuidValue('296afb91-547e-45e8-a368-1b61542ad5ce'),
           name: 'Recipe Manager',
+          id: UuidValue('296afb91-547e-45e8-a368-1b61542ad5ce'),
         );
 
-  Future<bool> init() async => bakeCodeCompatibility.checkGit();
+  Future<bool> get init async => bakeCodeCompatibility.checkGit();
 
   /// Template file name for bakecode receipe package.
   static const _packageTemplateFiles = [
@@ -44,7 +112,7 @@ dependencies:
 
 ''';
 
-  /// Makes a base recipe.
+  /// Makes a base recipe by passing [name] and [description].
   Future<void> make(String name, String description) async {
     for (final filename in _packageTemplateFiles) {
       final file = File(filename);
@@ -59,14 +127,14 @@ dependencies:
 
   static const tempGetName = '.downloaded';
 
-  /// Get the recipe.
-  Future<void> get(Uri uri) async {
+  /// Get the recipe by giving [meta] information.
+  Future<void> get(RecipeMeta meta) async {
     // Clone in a ".downloaded" folder so that the name is static. This
     // way it's easier to traverse the package to check it's validity.
 
     var process = await Process.run('git', [
       'clone',
-      '$uri',
+      '${meta.provider}',
       tempGetName,
     ]);
 
@@ -101,9 +169,17 @@ dependencies:
       return;
     }
 
+    // rename to real recipe name.
+
+    await Directory(tempGetName).rename(yaml['name']);
+
     // Checking recipes that recipe depends.
 
-    if (yaml.containsKey('recipes')) {}
+    if (yaml['bakecode']['recipe'].containsKey('requires')) {
+      for (final receipeCommand in yaml['bakecode']['recipe']['requires']) {
+        get(RecipeMeta.fromString(receipeCommand));
+      }
+    }
 
     // Get the dart packages.
 
@@ -116,5 +192,5 @@ dependencies:
 final recipes = Recipes._();
 
 Future<void> main(List<String> args) async {
-  print(await recipes.init());
+  print(await recipes.init);
 }
