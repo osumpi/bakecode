@@ -20,7 +20,10 @@ Future<void> main(List<String> args) async {
     },
   );
 
-  runner..addCommand(BakeCodeConsoleCommand())..addCommand(RunEngineCommand());
+  runner
+    ..addCommand(ConsoleCommand())
+    ..addCommand(RunEngineCommand())
+    ..addCommand(RecipesCommand());
 
   await runner.run(args);
 }
