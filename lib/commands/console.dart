@@ -1,6 +1,6 @@
 part of bakecode.engine;
 
-class BakeCodeConsoleCommand extends Command {
+class ConsoleCommand extends Command {
   @override
   String get name => 'console';
 
