@@ -9,18 +9,21 @@ import 'package:args/command_runner.dart';
 import 'package:console/console.dart';
 import 'package:core/core.dart';
 import 'package:pubspec_parse/pubspec_parse.dart';
+import 'package:uuid/uuid.dart';
 
 part 'src/ecosystem.dart';
 part 'src/engine.dart';
-part 'src/console.dart';
+
+// All commands
+part 'commands/console.dart';
+part 'commands/recipes.dart';
 
 late final pubspec = _getPubspec();
 late final version = pubspec.version;
 late final issueTracker = pubspec.issueTracker;
 late final repository = pubspec.repository;
 
-late final description =
-    """
+late final description = """
 
 BakeCode Ecosystem Engine.
 
