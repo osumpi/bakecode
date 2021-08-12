@@ -29,11 +29,7 @@ void initialize() {
         stdout.write(' ✓ ');
         Console.resetBackgroundColor();
         Console.setTextColor(Color.LIME.id, bright: true);
-      }
-      else if (record.level == Level.FINEST) {
-        Console.setTextColor(Color.LIME.id, bright: true);
-      }
-      else if (record.level == Level.WARNING) {
+      } else if (record.level == Level.WARNING) {
         Console.setTextColor(Color.WHITE.id, bright: true);
         Console.setBackgroundColor(Color.YELLOW.id, bright: true);
         stdout.write(' ! ');
