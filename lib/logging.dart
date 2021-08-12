@@ -11,7 +11,7 @@ void initialize() {
 
   Logger.root.onRecord.listen((record) {
     if (record.level == Level.CONFIG) {
-      Console.setTextColor(Color.CYAN.id);
+      Console.setTextColor(Color.CYAN.id, bright: true);
       stdout.write(record.message);
       Console.resetAll();
     } else {
