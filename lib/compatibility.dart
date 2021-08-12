@@ -13,7 +13,7 @@ class BakeCodeCompatibility {
     try {
       await Process.run(executable, arguments);
     } on ProcessException {
-      log(errorMsg);
+      log.severe(errorMsg);
       return false;
     }
     return true;
