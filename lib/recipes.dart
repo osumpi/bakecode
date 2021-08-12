@@ -146,8 +146,10 @@ dependencies:
     // stderr.addStream(process.stderr);
 
     if (process.exitCode != 0) {
-      log('Oops! Failed to get the receipe. Maybe check the URI?');
-      log('Error trace: ${process.stderr}');
+      log.severe('Oops! Failed to get the receipe. Maybe check the URI?');
+      log.severe('Error trace: ${process.stderr}');
+
+      return;
     }
 
     // Checking if this git project is valid dart package.
@@ -155,7 +157,7 @@ dependencies:
     final file = File('$tempGetName/pubspec.yaml');
 
     if (!await file.exists()) {
-      log('Hmm... Pubspec file does not exist! Are you sure that this is a recipe repo?');
+      log.severe('Hmm... Pubspec file does not exist! Are you sure that this is a recipe repo?');
 
       await Directory(tempGetName).delete();
 
@@ -169,7 +171,7 @@ dependencies:
     // Checking if the pubspec contains the bakecode key in yaml file.
 
     if (!yaml.containsKey('bakecode')) {
-      log('Hmm... Pubspec file does not contain the bakecode key! Are you sure that this is a recipe repo?');
+      log.severe('Hmm... Pubspec file does not contain the bakecode key! Are you sure that this is a recipe repo?');
 
       await Directory(tempGetName).delete();
 
