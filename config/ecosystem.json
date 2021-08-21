@@ -1,14 +1,19 @@
 {
     "bakecode": {
-        "kitchen": {
-            "storage": {
-                "icy-resurrection": {}
-            }
-        },
-        "dine-in": {
-            "family-dine-in": {},
-            "open-dine-in": {}
-        },
-        "dine-out": {}
+      "kitchen": {
+        "storage": {
+          "icy-resurrection": {}
+        }
+      },
+      "dine-in": {
+        "family-dine-in": {},
+        "open-dine-in": {}
+      },
+      "dine-out": {}
+    },
+    "something": {
+      "somehwere_else": {
+        "not-led": "3e083062-0616-462f-8953-ceb1f8261908"
+      }
     }
-}
+  }

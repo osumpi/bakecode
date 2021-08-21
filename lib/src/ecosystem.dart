@@ -9,7 +9,26 @@ class Ecosystem {
 
   static const jsonEncoder = JsonEncoder.withIndent('  ');
 
-  static Future<Ecosystem> loadFromFile([String source = 'config/ecosystem.json']) async {
+  static Map<String, dynamic> _convertAddressToMap(
+      Iterable<String> levels, String uuid) {
+    final map = <String, dynamic>{};
+
+    if (levels.length > 1) {
+      map[levels.first] = _convertAddressToMap(levels.skip(1), uuid);
+    } else if (levels.length == 1) {
+      map[levels.single] = uuid;
+    }
+
+    return map;
+  }
+
+  Map merge(Address address, String uuid) {
+    map.addAll(_convertAddressToMap(address.levels, uuid));
+    return map;
+  }
+
+  static Future<Ecosystem> loadFromFile(
+      [String source = 'config/ecosystem.json']) async {
     final file = File(source);
 
     if (!await file.exists()) {
@@ -20,7 +39,8 @@ Do you wish to write an example ecosystem? [Y/n]  """);
       var input = stdin.readLineSync()?.substring(0, 1).toLowerCase() ?? '';
 
       if (input == 'y') {
-        await file.writeAsString(jsonEncoder.convert(Ecosystem.exampleEcosystem()));
+        await file
+            .writeAsString(jsonEncoder.convert(Ecosystem.exampleEcosystem()));
       } else {
         exit(0);
       }
@@ -35,7 +55,8 @@ Do you wish to write an example ecosystem? [Y/n]  """);
     return Ecosystem(map: json, source: File(source));
   }
 
-  Future<File> saveToFile([File? file]) => (file ?? source).writeAsString(jsonEncoder.convert(this));
+  Future<File> saveToFile([File? file]) =>
+      (file ?? source).writeAsString(jsonEncoder.convert(this));
 
   Map toJson() => map;
 
