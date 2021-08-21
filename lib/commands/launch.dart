@@ -10,6 +10,6 @@ class LaunchEngineCommand extends Command {
 
   @override
   Future<void> run() async {
-    await BakecodeEngine().initialize();
+    await BakecodeEngine.instance.initialize();
   }
 }
