@@ -19,6 +19,8 @@ dependencies:
     git: git@github.com:bakecode-devs/core.git
   equatable: ^2.0.0
   hive: ^2.0.4
+  intl: ^0.17.0
+  logging: ^1.0.1
   pubspec_parse: ^1.0.0
   uuid: ^3.0.4
   yaml: ^3.1.0

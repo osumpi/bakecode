@@ -22,6 +22,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  clock:
+    dependency: transitive
+    description:
+      name: clock
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   collection:
     dependency: transitive
     description:
@@ -41,7 +48,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: aa90f5a23ea0765ab046d531a81b84e814b0218a
+      resolved-ref: "7aefce5e8ee3bfe634b05f6546e8107d42b1b9ff"
       url: "git@github.com:bakecode-devs/core.git"
     source: git
     version: "0.0.2-alpha"
@@ -73,6 +80,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.17.0"
   json_annotation:
     dependency: transitive
     description:
@@ -87,6 +101,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.6.0"
+  logging:
+    dependency: "direct main"
+    description:
+      name: logging
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   meta:
     dependency: "direct dev"
     description:
