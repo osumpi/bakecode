@@ -48,7 +48,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "66f3fd3febc595a0a19e4b42c3ea074a65be0f28"
+      resolved-ref: b174d2a1a6c17b8e909b1e16ef9ddb04cdb82237
       url: "git@github.com:bakecode-devs/core.git"
     source: git
     version: "0.0.2-alpha"

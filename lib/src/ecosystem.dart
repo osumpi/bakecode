@@ -26,7 +26,7 @@ class Ecosystem {
     map.addAll(_convertAddressToMap(address.levels, uuid));
     return map;
   }
-
+  
   static Future<Ecosystem> loadFromFile(
       [String source = 'config/ecosystem.json']) async {
     final file = File(source);
@@ -79,4 +79,7 @@ Do you wish to write an example ecosystem? [Y/n]  """);
       },
     );
   }
+
+  @override
+  String toString() => jsonEncode(this);
 }
