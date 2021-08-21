@@ -1,9 +1,13 @@
 part of bakecode.engine;
 
 class BakecodeEngine extends Service {
-  BakecodeEngine() : super(File('config/engine.yaml'));
+  BakecodeEngine.createInstance() : super(File('config/engine.yaml'));
 
-  late final State<Ecosystem> ecosystem = state<Ecosystem>('map');
+  static final instance = BakecodeEngine.createInstance();
+
+  late final Ecosystem ecosystem;
+
+  late final State<String> tree = state<String>('tree');
 
   @override
   Future<void> initState() async {
@@ -11,7 +15,8 @@ class BakecodeEngine extends Service {
 
     runner.addCommand(_InstantiatedCommand());
 
-    ecosystem.set(await Ecosystem.loadFromFile());
+    ecosystem = await Ecosystem.loadFromFile();
+    tree.set(jsonEncode(ecosystem));
   }
 
   @override
@@ -29,15 +34,13 @@ class BakecodeEngine extends Service {
 }
 
 class _InstantiatedCommand extends Command {
+  @override
   final name = 'instantiated';
+  @override
   final description = '';
 
   _InstantiatedCommand() {
     addSubcommand(_InstantiatedServiceCommand());
-  }
-
-  run() {
-    return super.run();
   }
 }
 
@@ -55,13 +58,15 @@ class _InstantiatedServiceCommand extends Command {
   }
 
   @override
-  FutureOr? run() {
+  Future<void> run() async {
     final name = argResults!['name'] as String;
     final id = argResults!['id'] as String;
     final address = Address(argResults!['address'] as String);
 
-    // TODO: invoke ecosystem.addService(name, id, address);
+    await BakecodeEngine.instance.ecosystem.addService(address, id);
 
-    return super.run();
+    BakecodeEngine.instance.tree.set(
+      jsonEncode(BakecodeEngine.instance.ecosystem),
+    );
   }
 }
