@@ -9,6 +9,24 @@ class Ecosystem {
 
   static const jsonEncoder = JsonEncoder.withIndent('  ');
 
+  static Map<String, dynamic> _convertAddressToMap(
+      Iterable<String> levels, String uuid) {
+    final map = <String, dynamic>{};
+
+    if (levels.length > 1) {
+      map[levels.first] = _convertAddressToMap(levels.skip(1), uuid);
+    } else if (levels.length == 1) {
+      map[levels.single] = uuid;
+    }
+
+    return map;
+  }
+
+  Map merge(Address address, String uuid) {
+    map.addAll(_convertAddressToMap(address.levels, uuid));
+    return map;
+  }
+  
   static Future<Ecosystem> loadFromFile(
       [String source = 'config/ecosystem.json']) async {
     final file = File(source);
