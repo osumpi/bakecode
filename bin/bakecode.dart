@@ -21,8 +21,13 @@ Future<void> main(List<String> args) async {
   );
 
   runner
+    // bakecode launch
+    ..addCommand(LaunchEngineCommand())
+
+    // bakecode console
     ..addCommand(ConsoleCommand())
-    ..addCommand(RunEngineCommand())
+
+    // bakecode recipes ...
     ..addCommand(RecipesCommand());
 
   await runner.run(args);

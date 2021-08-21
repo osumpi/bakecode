@@ -13,7 +13,7 @@
             },
             "type": "dart",
             "args": [
-                "shell",
+                "launch",
             ],
         }
     ]

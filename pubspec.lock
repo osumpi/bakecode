@@ -41,7 +41,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "4923f5b55888c4c7a5e776cbf7239613c0143722"
+      resolved-ref: aa90f5a23ea0765ab046d531a81b84e814b0218a
       url: "git@github.com:bakecode-devs/core.git"
     source: git
     version: "0.0.2-alpha"
@@ -86,7 +86,7 @@ packages:
       name: lint
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.5.3"
+    version: "1.6.0"
   meta:
     dependency: "direct dev"
     description:
@@ -100,7 +100,7 @@ packages:
       name: mqtt_client
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "9.4.2"
+    version: "9.5.0"
   path:
     dependency: transitive
     description:

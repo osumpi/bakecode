@@ -1,0 +1,14 @@
+name: BakeCode Engine
+
+description: Boss of the ecosystem.
+
+id: e34bfd23-3a2d-496d-991f-fb6dcde954dc
+
+location: ""
+singleton: true
+
+server: xtensablade.ddns.net
+port: 8080
+protocol: websocket
+username: ""
+password: ""

@@ -9,12 +9,14 @@ import 'package:args/command_runner.dart';
 import 'package:console/console.dart';
 import 'package:core/core.dart';
 import 'package:pubspec_parse/pubspec_parse.dart';
-import 'package:uuid/uuid.dart';
 
 part 'src/ecosystem.dart';
-part 'src/engine.dart';
+
+// All services
+part 'services/engine.dart';
 
 // All commands
+part 'commands/launch.dart';
 part 'commands/console.dart';
 part 'commands/recipes.dart';
 

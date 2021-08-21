@@ -77,13 +77,7 @@ Please follow this syntax <recipe_name> by <author> from <provider>
 
 /// Manages recipes in bakecode.
 class Recipes extends Service {
-  Recipes._()
-      : super(
-          id: _id,
-          name: 'Recipe Manager',
-        );
-
-  static final _id = UuidValue('296afb91-547e-45e8-a368-1b61542ad5ce');
+  Recipes({required File configFile}) : super(configFile);
 
   Future<bool> get init async => bakeCodeCompatibility.checkGit();
 
@@ -193,21 +187,5 @@ dependencies:
     Directory.current = Directory(tempGetName);
 
     await Process.run('dart', ['pub', 'get']);
-  }
-}
-
-final recipes = Recipes._();
-
-Future<void> main(List<String> args) async {
-  if (await recipes.init) {
-    // await recipes.make('bakecode-empty', 'Empty recipe');
-
-    await recipes.get(
-      RecipeMeta.fromProviderName(
-        name: 'sample_recipe',
-        author: 'rithviknishad',
-        providerName: 'github',
-      ),
-    );
   }
 }
