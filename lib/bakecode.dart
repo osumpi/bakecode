@@ -6,6 +6,7 @@ import 'dart:developer' as developer;
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:bakecode_engine/utils/merge_map.dart';
 import 'package:console/console.dart';
 import 'package:core/core.dart';
 import 'package:pubspec_parse/pubspec_parse.dart';
