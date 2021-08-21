@@ -1,7 +1,7 @@
 part of bakecode.engine;
 
 class Ecosystem {
-  final Map map;
+  Map map;
 
   final File source;
 
@@ -9,9 +9,8 @@ class Ecosystem {
 
   static const jsonEncoder = JsonEncoder.withIndent('  ');
 
-  static Map<String, dynamic> _convertAddressToMap(
-      Iterable<String> levels, String uuid) {
-    final map = <String, dynamic>{};
+  static Map _convertAddressToMap(Iterable<String> levels, String uuid) {
+    final map = {};
 
     if (levels.length > 1) {
       map[levels.first] = _convertAddressToMap(levels.skip(1), uuid);
@@ -22,11 +21,11 @@ class Ecosystem {
     return map;
   }
 
-  Map merge(Address address, String uuid) {
-    map.addAll(_convertAddressToMap(address.levels, uuid));
-    return map;
+  Future<void> addService(Address address, String uuid) async {
+    map = mergeMap([map, _convertAddressToMap(address.levels, uuid)]);
+    await saveToFile();
   }
-  
+
   static Future<Ecosystem> loadFromFile(
       [String source = 'config/ecosystem.json']) async {
     final file = File(source);
