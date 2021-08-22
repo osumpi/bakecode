@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:bakecode_engine/compatibility.dart';
 import 'package:bakecode_engine/logging.dart';
 import 'package:core/core.dart';
-import 'package:uuid/uuid.dart';
 import 'package:yaml/yaml.dart';
 import 'package:meta/meta.dart';
 
