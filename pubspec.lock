@@ -14,7 +14,7 @@ packages:
       path: "."
       ref: HEAD
       resolved-ref: "37e84fd18e869c41cdd9c920d152f0d29012c8de"
-      url: "git@github.com:osumpi/bsi-dart.git"
+      url: "https://github.com/osumpi/bsi-dart.git"
     source: git
     version: "0.0.2-alpha"
   charcode:
