@@ -21,12 +21,11 @@ part 'commands/launch.dart';
 part 'commands/console.dart';
 part 'commands/recipes.dart';
 
-late final pubspec = _getPubspec();
-late final version = pubspec.version;
-late final issueTracker = pubspec.issueTracker;
-late final repository = pubspec.repository;
+const version = '0.0.1-alpha';
+const issueTracker = 'https://github.com/osumpi/bakecode/issues';
+const repository = 'https://github.com/osumpi/bakecode';
 
-late final description = """
+const description = """
 
 BakeCode Ecosystem Engine.
 
@@ -47,6 +46,3 @@ void log(String message, {Object? error, StackTrace? stackTrace}) =>
       stackTrace: stackTrace,
     );
 
-Pubspec _getPubspec() {
-  return Pubspec.parse(File('pubspec.yaml').readAsStringSync());
-}
