@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:bakecode_engine/logging.dart';
+import 'package:bakecode/logging.dart';
 
 /// Handles compatibility for bakecode.
 class BakeCodeCompatibility {

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:bakecode_engine/bakecode.dart';
-import 'package:core/core.dart';
+import 'package:bakecode/bakecode.dart';
+import 'package:bsi_dart/bsi.dart';
 
 const config = '''
 {

@@ -8,6 +8,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.0"
+  bsi_dart:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "37e84fd18e869c41cdd9c920d152f0d29012c8de"
+      url: "git@github.com:osumpi/bsi-dart.git"
+    source: git
+    version: "0.0.2-alpha"
   charcode:
     dependency: transitive
     description:
@@ -43,15 +52,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.1.0"
-  core:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "66f3fd3febc595a0a19e4b42c3ea074a65be0f28"
-      url: "git@github.com:bakecode-devs/core.git"
-    source: git
-    version: "0.0.2-alpha"
   crypto:
     dependency: transitive
     description:

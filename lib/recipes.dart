@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:bakecode_engine/compatibility.dart';
-import 'package:bakecode_engine/logging.dart';
-import 'package:core/core.dart';
-import 'package:yaml/yaml.dart';
+import 'package:bakecode/compatibility.dart';
+import 'package:bakecode/logging.dart';
+import 'package:bsi_dart/bsi.dart';
 import 'package:meta/meta.dart';
+import 'package:yaml/yaml.dart';
 
 /// Contains meta information about recipe.
 @immutable
@@ -150,7 +150,8 @@ dependencies:
     final file = File('$tempGetName/pubspec.yaml');
 
     if (!await file.exists()) {
-      log.severe('Hmm... Pubspec file does not exist! Are you sure that this is a recipe repo?');
+      log.severe(
+          'Hmm... Pubspec file does not exist! Are you sure that this is a recipe repo?');
 
       await Directory(tempGetName).delete();
 
@@ -164,7 +165,8 @@ dependencies:
     // Checking if the pubspec contains the bakecode key in yaml file.
 
     if (!yaml.containsKey('bakecode')) {
-      log.severe('Hmm... Pubspec file does not contain the bakecode key! Are you sure that this is a recipe repo?');
+      log.severe(
+          'Hmm... Pubspec file does not contain the bakecode key! Are you sure that this is a recipe repo?');
 
       await Directory(tempGetName).delete();
 

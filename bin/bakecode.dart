@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
-import 'package:bakecode_engine/bakecode.dart';
-import 'package:bakecode_engine/logging.dart' as logger;
+import 'package:bakecode/bakecode.dart';
+import 'package:bakecode/logging.dart' as logger;
 
 Future<void> main(List<String> args) async {
   logger.initialize();
