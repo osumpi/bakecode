@@ -14,9 +14,9 @@ environment:
 
 dependencies:
   args: ^2.2.0
-  console: ^4.1.0
   bsi_dart:
-    git: git@github.com:osumpi/bsi-dart.git
+    git: https://github.com/osumpi/bsi-dart.git
+  console: ^4.1.0
   equatable: ^2.0.0
   hive: ^2.0.4
   intl: ^0.17.0
