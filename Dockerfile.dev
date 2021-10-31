@@ -1,0 +1,9 @@
+# docker build . -t bakecode:dev --file Dockerfile.dev
+
+FROM dart:latest
+
+COPY . /bakecode
+
+RUN cd /bakecode && dart pub get
+
+CMD [ "dart" , "/bakecode/bin/bakecode.dart" , "launch"]
