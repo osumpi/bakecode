@@ -59,7 +59,7 @@ class _InstantiatedServiceCommand extends Command {
 
   @override
   Future<void> run() async {
-    final name = argResults!['name'] as String;
+    // final name = argResults!['name'] as String;
     final id = argResults!['id'] as String;
     final address = Address(argResults!['address'] as String);
 

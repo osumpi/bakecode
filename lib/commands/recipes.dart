@@ -12,6 +12,7 @@ This requires the recipe manager service running in the ecosystem.
 
   @override
   void run() {
+    // ignore: avoid_print
     print(argResults!.arguments);
   }
 }
