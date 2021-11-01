@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the get method from the Recipes class, for the Dart programming language.">
+  <title>get method - Recipes class - recipes library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../"
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">bakecode</a></li>
+    <li><a href="../../recipes/recipes-library.html">recipes</a></li>
+    <li><a href="../../recipes/Recipes-class.html">Recipes</a></li>
+    <li class="self-crumb">get method</li>
+  </ol>
+  <div class="self-name">get</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-method">get</span> method 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+
+<span class="returntype"><a href="https://api.dart.dev/stable/2.14.4/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+<span class="name ">get</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="get-param-meta"><span class="type-annotation"><a href="../../recipes/RecipeMeta-class.html">RecipeMeta</a></span> <span class="parameter-name">meta</span></span></li>
+</ol>)
+
+      
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Get the recipe by giving <code>meta</code> information.</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; get(RecipeMeta meta) async {
+  &#47;&#47; Clone in a &quot;.downloaded&quot; folder so that the name is static. This
+  &#47;&#47; way it&#39;s easier to traverse the package to check it&#39;s validity.
+
+  var process = await Process.run(&#39;git&#39;, [
+    &#39;clone&#39;,
+    &#39;${meta.provider}&#39;,
+    tempGetName,
+  ]);
+
+  &#47;&#47; stdout.addStream(process.stdout);
+
+  &#47;&#47; stderr.addStream(process.stderr);
+
+  if (process.exitCode != 0) {
+    log.severe(&#39;Oops! Failed to get the receipe. Maybe check the URI?&#39;);
+    log.severe(&#39;Error trace: ${process.stderr}&#39;);
+
+    return;
+  }
+
+  &#47;&#47; Checking if this git project is valid dart package.
+
+  final file = File(&#39;$tempGetName&#47;pubspec.yaml&#39;);
+
+  if (!await file.exists()) {
+    log.severe(
+        &#39;Hmm... Pubspec file does not exist! Are you sure that this is a recipe repo?&#39;);
+
+    await Directory(tempGetName).delete();
+
+    return;
+  }
+
+  &#47;&#47; Checking if this git project is valid bakecode recipe package.
+
+  final yaml = loadYaml(await file.readAsString()) as YamlMap;
+
+  &#47;&#47; Checking if the pubspec contains the bakecode key in yaml file.
+
+  if (!yaml.containsKey(&#39;bakecode&#39;)) {
+    log.severe(
+        &#39;Hmm... Pubspec file does not contain the bakecode key! Are you sure that this is a recipe repo?&#39;);
+
+    await Directory(tempGetName).delete();
+
+    return;
+  }
+
+  &#47;&#47; rename to real recipe name.
+
+  await Directory(tempGetName).rename(yaml[&#39;name&#39;]);
+
+  &#47;&#47; Checking recipes that recipe depends.
+
+  if (yaml[&#39;bakecode&#39;][&#39;recipe&#39;].containsKey(&#39;requires&#39;)) {
+    for (final receipeCommand in yaml[&#39;bakecode&#39;][&#39;recipe&#39;][&#39;requires&#39;]) {
+      get(RecipeMeta.fromString(receipeCommand));
+    }
+  }
+
+  &#47;&#47; Get the dart packages.
+
+  Directory.current = Directory(tempGetName);
+
+  await Process.run(&#39;dart&#39;, [&#39;pub&#39;, &#39;get&#39;]);
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../../index.html">bakecode</a></li>
+  <li><a href="../../recipes/recipes-library.html">recipes</a></li>
+  <li><a href="../../recipes/Recipes-class.html">Recipes</a></li>
+  <li class="self-crumb">get method</li>
+</ol>
+
+
+    <h5>Recipes class</h5>
+    <ol>
+
+    <li class="section-title"><a href="../../recipes/Recipes-class.html#constructors">Constructors</a></li>
+    <li><a href="../../recipes/Recipes/Recipes.html">Recipes</a></li>
+
+
+    <li class="section-title">
+      <a href="../../recipes/Recipes-class.html#instance-properties">Properties</a>
+    </li>
+    <li class="inherited"><a href="../../recipes/Recipes/address.html">address</a></li>
+    <li class="inherited"><a href="../../recipes/Recipes/config.html">config</a></li>
+    <li class="inherited"><a href="../../recipes/Recipes/configFile.html">configFile</a></li>
+    <li class="inherited"><a href="../../recipes/Recipes/connectionState.html">connectionState</a></li>
+    <li class="inherited"><a href="../../recipes/Recipes/description.html">description</a></li>
+    <li class="inherited"><a href="https://api.dart.dev/stable/2.14.4/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li class="inherited"><a href="../../recipes/Recipes/id.html">id</a></li>
+    <li><a href="../../recipes/Recipes/init.html">init</a></li>
+    <li class="inherited"><a href="../../recipes/Recipes/isActive.html">isActive</a></li>
+    <li class="inherited"><a href="../../recipes/Recipes/isSingleton.html">isSingleton</a></li>
+    <li class="inherited"><a href="../../recipes/Recipes/name.html">name</a></li>
+    <li class="inherited"><a href="../../recipes/Recipes/outboxController.html">outboxController</a></li>
+    <li class="inherited"><a href="https://api.dart.dev/stable/2.14.4/dart-core/Object/runtimeType.html">runtimeType</a></li>
+
+    <li class="section-title"><a href="../../recipes/Recipes-class.html#instance-methods">Methods</a></li>
+    <li><a href="../../recipes/Recipes/get.html">get</a></li>
+    <li class="inherited"><a href="../../recipes/Recipes/initialize.html">initialize</a></li>
+    <li class="inherited"><a href="../../recipes/Recipes/initState.html">initState</a></li>
+    <li><a href="../../recipes/Recipes/make.html">make</a></li>
+    <li class="inherited"><a href="https://api.dart.dev/stable/2.14.4/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+    <li class="inherited"><a href="../../recipes/Recipes/onMessageReceived.html">onMessageReceived</a></li>
+    <li class="inherited"><a href="../../recipes/Recipes/send.html">send</a></li>
+    <li class="inherited"><a href="../../recipes/Recipes/state.html">state</a></li>
+    <li class="inherited"><a href="https://api.dart.dev/stable/2.14.4/dart-core/Object/toString.html">toString</a></li>
+
+    <li class="section-title inherited"><a href="../../recipes/Recipes-class.html#operators">Operators</a></li>
+    <li class="inherited"><a href="https://api.dart.dev/stable/2.14.4/dart-core/Object/operator_equals.html">operator ==</a></li>
+
+
+
+
+    <li class="section-title"><a href="../../recipes/Recipes-class.html#constants">Constants</a></li>
+    <li><a href="../../recipes/Recipes/tempGetName-constant.html">tempGetName</a></li>
+</ol>
+
+  </div><!--/.sidebar-offcanvas-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    bakecode
+      0.0.1-alpha
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/script.js?v1"></script>
+
+
+
+</body>
+
+</html>
+
