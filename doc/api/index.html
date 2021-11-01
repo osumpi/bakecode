@@ -45,18 +45,28 @@
       
 <section class="desc markdown">
   <h1 id="bakecode">Bakecode</h1>
-<p><a href="https://github.com/osumpi/bakecode/actions/workflows/generate_docs.yaml"><img src="https://github.com/osumpi/bakecode/actions/workflows/generate_docs.yaml/badge.svg" alt="Documentation"></a></p>
-<p><a href="https://github.com/osumpi/bakecode/actions/workflows/dart.yml"><img src="https://github.com/osumpi/bakecode/actions/workflows/dart.yml/badge.svg" alt="Build"></a></p>
+<p><a href="https://github.com/osumpi/bakecode/actions/workflows/generate_docs.yaml"><img src="https://github.com/osumpi/bakecode/actions/workflows/generate_docs.yaml/badge.svg" alt="Documentation"></a>
+<a href="https://github.com/osumpi/bakecode/actions/workflows/dart.yml"><img src="https://github.com/osumpi/bakecode/actions/workflows/dart.yml/badge.svg" alt="Build"></a></p>
 <h2 id="setup">Setup</h2>
+<h2 id="installation">Installation</h2>
+<p>Launch <code>bakecode</code> using docker's <code>compose</code> command.</p>
+<pre class="language-bash"><code class="language-bash">mkdir bakecode
+cd bakecode
+wget https://raw.githubusercontent.com/osumpi/bakecode/main/docker-compose.yaml
+docker compose up
+</code></pre>
+<h3 id="local-docker-setup">Local Docker setup</h3>
 <p>Bakecode requires <code>git</code>, <code>docker</code> and <code>dart</code> to be installed in the system.</p>
 <pre class="language-bash"><code class="language-bash">git clone https://github.com/osumpi/bakecode.git
 cd bakecode
-pub get
-pub run build_runner run --delete-conflicting-outputs
-docker build . -t bakecode:latest --file Dockerfile.dev
+docker build . --tag bakecode:latest --file Dockerfile
+docker compose up
 </code></pre>
-<h2 id="usage">Usage</h2>
-<pre class="language-bash"><code class="language-bash">docker compose up
+<h2 id="contributing">Contributing</h2>
+<p>Launch your code editor of choice inside <code>bakecode:dev</code>. This is bakecode's
+official development image.</p>
+<pre class="language-bash"><code class="language-bash">git clone https://github.com/osumpi/bakecode.git
+docker build bakecode --tag bakecode:dev --file Dockerfile.dev
 </code></pre>
 </section>
 
