@@ -9,7 +9,6 @@ import 'package:args/command_runner.dart';
 import 'package:bakecode/utils/merge_map.dart';
 import 'package:bsi_dart/bsi.dart';
 import 'package:console/console.dart';
-import 'package:pubspec_parse/pubspec_parse.dart';
 
 part 'src/ecosystem.dart';
 
