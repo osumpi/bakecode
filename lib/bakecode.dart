@@ -44,4 +44,3 @@ void log(String message, {Object? error, StackTrace? stackTrace}) =>
       error: error,
       stackTrace: stackTrace,
     );
-
