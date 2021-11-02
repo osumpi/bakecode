@@ -1,7 +1,6 @@
 # Files and directories created by pub
 .dart_tool/
 .packages
-.devcontainer/
 
 # Conventional directory for build outputs
 build/
