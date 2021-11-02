@@ -68,6 +68,30 @@ docker compose up
 <pre class="language-sh"><code class="language-sh">dart pub global activate pubspec_extract
 dart pub global run pubspec_extract -d lib/pubspec.g.dart
 </code></pre>
+<h3 id="configuration-file">Configuration file</h3>
+<p>To specify the location of the configuration file to be used by <code>bakecode launch</code>:</p>
+<pre class="language-sh"><code class="language-sh">bakecode --config /path/to/bakecode.bsi.yaml
+# or 
+bakecode --c /path/to/bakecode.bsi.yaml
+</code></pre>
+<h4 id="default-configuration-file">Default configuration file</h4>
+<p>The default configuration file is located at: <code>/etc/bakecode/bakecode.bsi.yaml</code> and has the following contents:</p>
+<pre class="language-yaml"><code class="language-yaml">name: BakeCode Engine
+
+description: Boss of the ecosystem.
+
+id: e34bfd23-3a2d-496d-991f-fb6dcde954dc
+
+location: ""
+singleton: true
+
+server: xtensablade.ddns.net
+port: 8080
+protocol: websocket
+username: ""
+password: ""
+
+</code></pre>
 <h2 id="contributing">Contributing</h2>
 <p>Launch your code editor of choice inside <code>bakecode:dev</code>. This is bakecode's
 official development image.</p>
