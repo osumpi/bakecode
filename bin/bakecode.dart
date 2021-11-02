@@ -18,15 +18,7 @@ Future<void> main(List<String> args) async {
     help: 'Print the BakeCode Engine version.',
     callback: (parsed) {
       if (parsed) {
-        final buildDateFormat = DateFormat("E MMM d HH:mm:ss y 'UTC'");
-
-        final platformName =
-            Process.runSync('uname', ['-s']).stdout.toString().trim();
-        final platformArchitecture =
-            Process.runSync('uname', ['-m']).stdout.toString().trim();
-
-        stdout.writeln(
-            '${Pubspec.name} ${Pubspec.versionFull} ${buildDateFormat.format(Pubspec.buildDate)} on $platformName ($platformArchitecture)');
+        stdout.writeln(getVersionText());
         exit(0);
       }
     },
@@ -43,4 +35,15 @@ Future<void> main(List<String> args) async {
     ..addCommand(RecipesCommand());
 
   await runner.run(args);
+}
+
+String getVersionText() {
+  final buildDateFormat = DateFormat("E MMM d HH:mm:ss y 'UTC'");
+
+  final platformName =
+      Process.runSync('uname', ['-s']).stdout.toString().trim();
+  final platformArchitecture =
+      Process.runSync('uname', ['-m']).stdout.toString().trim();
+
+  return '${Pubspec.name} ${Pubspec.versionFull} ${buildDateFormat.format(Pubspec.buildDate)} on $platformName ($platformArchitecture)';
 }
