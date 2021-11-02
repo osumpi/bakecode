@@ -75,6 +75,9 @@ official development image.</p>
 <pre class="language-bash"><code class="language-bash">git clone https://github.com/osumpi/bakecode.git
 docker build bakecode --tag bakecode:dev --file Dockerfile.dev
 </code></pre>
+<pre class="language-sh"><code class="language-sh">dart pub global activate pubspec_extract
+dart pub global run pubspec_extract -d lib/pubspec.g.dart
+</code></pre>
 </section>
 
 
