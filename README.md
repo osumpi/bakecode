@@ -47,3 +47,8 @@ official development image.
 git clone https://github.com/osumpi/bakecode.git
 docker build bakecode --tag bakecode:dev --file Dockerfile.dev
 ```
+
+```sh
+dart pub global activate pubspec_extract
+dart pub global run pubspec_extract -d lib/pubspec.g.dart
+```

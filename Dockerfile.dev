@@ -4,10 +4,18 @@
 
 FROM dart:latest
 
+# Copy bakecode source
+
 COPY . /bakecode
+
+# Get dependencies
 
 RUN cd /bakecode && dart pub get
 
-# RUN cd /bakecode && dart pub run build_runner run --delete-conflicting-outputs
+# Run pubspec_extract builder
+
+RUN dart pub global activate pubspec_extract
+
+RUN cd /bakecode && dart pub global run pubspec_extract -d lib/pubspec.g.dart
 
 CMD [ "dart" , "/bakecode/bin/bakecode.dart" , "launch"]

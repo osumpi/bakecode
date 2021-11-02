@@ -65,11 +65,18 @@ cd bakecode
 docker build . --tag bakecode:latest --file Dockerfile
 docker compose up
 </code></pre>
+<h3 id="code-generations">Code generations</h3>
+<pre class="language-sh"><code class="language-sh">dart pub global activate pubspec_extract
+dart pub global run pubspec_extract -d lib/pubspec.g.dart
+</code></pre>
 <h2 id="contributing">Contributing</h2>
 <p>Launch your code editor of choice inside <code>bakecode:dev</code>. This is bakecode's
 official development image.</p>
 <pre class="language-bash"><code class="language-bash">git clone https://github.com/osumpi/bakecode.git
 docker build bakecode --tag bakecode:dev --file Dockerfile.dev
+</code></pre>
+<pre class="language-sh"><code class="language-sh">dart pub global activate pubspec_extract
+dart pub global run pubspec_extract -d lib/pubspec.g.dart
 </code></pre>
 </section>
 
