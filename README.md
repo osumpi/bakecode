@@ -1,5 +1,7 @@
 # Bakecode
 
+The bakecode ecosystem and service manager.
+
 [![Bakecode Docker Image](https://github.com/osumpi/bakecode/actions/workflows/docker-image.yml/badge.svg)](https://github.com/osumpi/bakecode/actions/workflows/docker-image.yml)
 [![Documentation](https://github.com/osumpi/bakecode/actions/workflows/generate_docs.yaml/badge.svg)](https://github.com/osumpi/bakecode/actions/workflows/generate_docs.yaml)
 [![Dart Build](https://github.com/osumpi/bakecode/actions/workflows/dart.yml/badge.svg)](https://github.com/osumpi/bakecode/actions/workflows/dart.yml)
