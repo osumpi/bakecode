@@ -18,12 +18,15 @@ Future<void> main(List<String> args) async {
     help: 'Print the BakeCode Engine version.',
     callback: (parsed) {
       if (parsed) {
-        final buildDate =
-            DateFormat("E MMM d HH:mm:ss y 'UTC'").format(Pubspec.buildDate);
+        final buildDateFormat = DateFormat("E MMM d HH:mm:ss y 'UTC'");
+
+        final platformName =
+            Process.runSync('uname', ['-s']).stdout.toString().trim();
+        final platformArchitecture =
+            Process.runSync('uname', ['-m']).stdout.toString().trim();
 
         stdout.writeln(
-          '${Pubspec.name} ${Pubspec.versionFull} $buildDate on "${Platform.operatingSystem}"',
-        );
+            '${Pubspec.name} ${Pubspec.versionFull} ${buildDateFormat.format(Pubspec.buildDate)} on $platformName ($platformArchitecture)');
         exit(0);
       }
     },
