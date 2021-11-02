@@ -8,14 +8,16 @@ FROM dart:latest
 
 COPY . /bakecode
 
+WORKDIR /bakecode
+
 # Get dependencies
 
-RUN cd /bakecode && dart pub get
+RUN pub get
 
 # Run pubspec_extract builder
 
-RUN dart pub global activate pubspec_extract
+RUN pub global activate pubspec_extract
 
-RUN cd /bakecode && dart pub global run pubspec_extract -d lib/pubspec.g.dart
+RUN pub global run pubspec_extract -d lib/pubspec.g.dart
 
-CMD [ "dart" , "/bakecode/bin/bakecode.dart" , "launch"]
+CMD [ "dart" , "bin/bakecode.dart" , "launch"]

@@ -9,11 +9,13 @@ FROM dart:latest
 
 INCLUDE+ Dockerfile.dev
 
-RUN cd /bakecode && dart analyze
+RUN dart analyze
 
 # Build Bakecode
 
-RUN cd /bakecode && dart compile exe bin/bakecode.dart
+RUN dart compile exe bin/bakecode.dart
+
+WORKDIR /
 
 RUN mv /bakecode/bin/bakecode.exe bakecode
 
