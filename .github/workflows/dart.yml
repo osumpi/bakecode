@@ -7,9 +7,9 @@ name: Dart Build
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -26,6 +26,9 @@ jobs:
 
       - name: Install dependencies
         run: dart pub get
+
+      - run: dart pub global activate pubspec_extract
+      - run: dart pub global run pubspec_extract -d lib/pubspec.g.dart
 
       # Uncomment this step to verify the use of 'dart format' on each commit.
       # - name: Verify formatting
