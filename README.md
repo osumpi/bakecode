@@ -31,6 +31,13 @@ docker build . --tag bakecode:latest --file Dockerfile
 docker compose up
 ```
 
+### Code generations
+
+```sh
+dart pub global activate pubspec_extract
+dart pub global run pubspec_extract -d lib/pubspec.g.dart
+```
+
 ## Contributing
 
 Launch your code editor of choice inside `bakecode:dev`. This is bakecode's
