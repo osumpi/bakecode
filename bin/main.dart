@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:bakecode/bakecode.dart';
 import 'package:bakecode/logging.dart' as logger;
+import 'package:intl/intl.dart';
 
 Future<void> main(List<String> args) async {
   logger.initialize();
@@ -16,9 +17,15 @@ Future<void> main(List<String> args) async {
     negatable: false,
     help: 'Print the BakeCode Engine version.',
     callback: (parsed) {
-      if (!parsed) return;
-      logger.log.config('bakecode $version');
-      exit(0);
+      if (parsed) {
+        final buildDate =
+            DateFormat("E MMM d HH:mm:ss y 'UTC'").format(Pubspec.buildDate);
+
+        stdout.writeln(
+          '${Pubspec.name} ${Pubspec.versionFull} $buildDate on "${Platform.operatingSystem}"',
+        );
+        exit(0);
+      }
     },
   );
 

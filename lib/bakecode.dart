@@ -10,6 +10,8 @@ import 'package:bakecode/utils/merge_map.dart';
 import 'package:bsi_dart/bsi.dart';
 import 'package:console/console.dart';
 
+export 'pubspec.g.dart';
+
 part 'src/ecosystem.dart';
 
 // All services
@@ -44,4 +46,3 @@ void log(String message, {Object? error, StackTrace? stackTrace}) =>
       error: error,
       stackTrace: stackTrace,
     );
-
