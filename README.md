@@ -37,6 +37,38 @@ dart pub global activate pubspec_extract
 dart pub global run pubspec_extract -d lib/pubspec.g.dart
 ```
 
+### Configuration file
+
+To specify the location of the configuration file to be used by `bakecode launch`:
+
+```sh
+bakecode --config /path/to/bakecode.bsi.yaml
+# or 
+bakecode --c /path/to/bakecode.bsi.yaml
+```
+
+#### Default configuration file
+
+The default configuration file is located at: `/etc/bakecode/bakecode.bsi.yaml` and has the following contents:
+
+```yaml
+name: BakeCode Engine
+
+description: Boss of the ecosystem.
+
+id: e34bfd23-3a2d-496d-991f-fb6dcde954dc
+
+location: ""
+singleton: true
+
+server: xtensablade.ddns.net
+port: 8080
+protocol: websocket
+username: ""
+password: ""
+
+```
+
 ## Contributing
 
 Launch your code editor of choice inside `bakecode:dev`. This is bakecode's
