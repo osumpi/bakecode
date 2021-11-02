@@ -1,9 +1,13 @@
-# docker build . -t bakecode:dev --file Dockerfile.dev
+# For Bakecode Development
+
+# Command: docker build . -t bakecode:dev --file Dockerfile.dev
 
 FROM dart:latest
 
 COPY . /bakecode
 
 RUN cd /bakecode && dart pub get
+
+# RUN cd /bakecode && dart pub run build_runner run --delete-conflicting-outputs
 
 CMD [ "dart" , "/bakecode/bin/bakecode.dart" , "launch"]

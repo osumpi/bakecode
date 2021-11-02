@@ -1,6 +1,0 @@
-.git/
-.dart_tool/
-.devcontainer/
-
-Dockerfile.dev
-docker-compose.yaml
