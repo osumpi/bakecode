@@ -1,18 +1,21 @@
+# syntax = edrevo/dockerfile-plus
 # Bakecode Docker Image
 
 # Command: docker build . -t bakecode:latest --file Dockerfile
 
 FROM dart:latest
 
-# Copy source, build bakecode and delete source
+# Copy Source & Setup
 
-COPY . /bakecode
+INCLUDE+ Dockerfile.dev
 
-RUN cd /bakecode && dart pub get
+# Build Bakecode
 
 RUN cd /bakecode && dart compile exe bin/bakecode.dart
 
 RUN mv /bakecode/bin/bakecode.exe bakecode
+
+# Clean up by removing source
 
 RUN rm -rf /bakecode
 
