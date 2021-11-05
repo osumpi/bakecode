@@ -44,7 +44,7 @@ To specify the location of the configuration file to be used by `bakecode launch
 ```sh
 bakecode --config /path/to/bakecode.bsi.yaml
 # or 
-bakecode --c /path/to/bakecode.bsi.yaml
+bakecode -c /path/to/bakecode.bsi.yaml
 ```
 
 #### Default configuration file
